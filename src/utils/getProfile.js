@@ -39,39 +39,16 @@ async function apiRequest(membershipType, membershipId) {
   }
 }
 
-export async function getProfile(membershipType, membershipId, stateCallback) {
-
-  stateCallback({
-    data: false,
-    loading: true,
-    error: false
-  });
-
+export async function getProfile(membershipType, membershipId) {
   let data = await apiRequest(membershipType, membershipId);
 
   if (data.profile.ErrorCode !== 1) {
-    stateCallback({
-      data: false,
-      loading: false,
-      error: data.profile.ErrorCode
-    });
-    return;
+    throw `Error code ${data.profile.ErrorCode}`;
   }
 
   if (!data.profile.Response.characterProgressions.data) {
-    stateCallback({
-      data: false,
-      loading: false,
-      error: 'privacy'
-    });
-    return;
+    throw `Profile is private`;
   }
 
-  data = responseUtils.profileScrubber(data);
-  
-  stateCallback({
-    data: data,
-    loading: false,
-    error: false
-  });
+  return responseUtils.profileScrubber(data);
 }

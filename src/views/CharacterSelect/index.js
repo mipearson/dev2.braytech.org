@@ -67,26 +67,30 @@ class CharacterSelect extends React.Component {
     this.props.setProfile(this.state.profile.data.profile.profile.data.userInfo.membershipType, this.state.profile.data.profile.profile.data.userInfo.membershipId, characterId, this.state.profile.data, true);
   };
 
-  getProfileCallback = (state) => {
-    this.setState(prev => ({
-      search: { ...prev.search },
-      profile: {
-        data: state.data
-      },
-      error: state.error,
-      loading: state.loading
-    }));
-  };
-
   resultClick = (membershipType, membershipId, displayName) => {
-
     window.scrollTo(0, 0);
-    
-    this.props.getProfile(membershipType, membershipId, this.getProfileCallback);
+
+    this.getProfile(membershipType, membershipId, this.getProfileCallback);
 
     if (displayName) {
       ls.update('history.profiles', { membershipType: membershipType, membershipId: membershipId, displayName: displayName }, true, 6);
     }
+  };
+
+  getProfile = (membershipType, membershipId) => {
+    this.setState({ loading: true, error: false });
+
+    this.props
+      .getProfile(membershipType, membershipId)
+      .then(data => {
+        this.setState({ loading: false, profile: { data } });
+      })
+      .catch(error => {
+        this.setState({
+          loading: false,
+          error
+        });
+      });
   };
 
   componentDidMount() {
@@ -94,7 +98,7 @@ class CharacterSelect extends React.Component {
     if (this.props.user.data) {
       this.setState({ profile: { data: this.props.user.data }, loading: false });
     } else if (this.props.user.membershipId && !this.state.profile.data) {
-      this.props.getProfile(this.props.user.membershipType, this.props.user.membershipId, this.getProfileCallback);
+      this.getProfile(this.props.user.membershipType, this.props.user.membershipId);
     } else {
       this.setState({ loading: false });
     }
