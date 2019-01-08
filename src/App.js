@@ -45,7 +45,7 @@ import BraytechContext from './BraytechContext';
 class App extends Component {
   constructor(props) {
     super();
-    
+
     let user = ls.get('setting.user') ? ls.get('setting.user') : false;
     let theme = ls.get('setting.theme') ? ls.get('setting.theme') : 'light-mode';
 
@@ -57,7 +57,7 @@ class App extends Component {
       user: {
         membershipType: user ? user.membershipType : false,
         membershipId: user ? user.membershipId : false,
-        characterId: false,
+        characterId: user ? user.characterId : false,
         data: false
       },
       manifest: {
@@ -204,9 +204,6 @@ class App extends Component {
               .then(manifest => {
                 this.manifest = manifest[0].value;
                 this.manifest.settings = this.bungieSettings;
-                let state = this.state;
-                state.status.code = 'ready';
-                this.setState(state);
               });
           });
       })
@@ -219,19 +216,19 @@ class App extends Component {
     this.updateViewport();
     window.addEventListener('resize', this.updateViewport);
 
-    dexie
-      .table('manifest')
-      .toArray()
-      .then(manifest => {
-        if (manifest.length > 0) {
-          let state = this.state;
-          state.manifest.version = manifest[0].version;
-          this.setState(state);
-        }
-      })
-      .then(() => {
-        this.getVersionAndSettings()
-          .then(version => {
+    const promises = [
+      dexie
+        .table('manifest')
+        .toArray()
+        .then(manifest => {
+          if (manifest.length > 0) {
+            let state = this.state;
+            state.manifest.version = manifest[0].version;
+            this.setState(state);
+          }
+        })
+        .then(() =>
+          this.getVersionAndSettings().then(version => {
             if (version !== this.state.manifest.version) {
               this.getManifest(version);
             } else {
@@ -242,24 +239,47 @@ class App extends Component {
                   if (manifest.length > 0) {
                     this.manifest = manifest[0].value;
                     this.manifest.settings = this.bungieSettings;
-                    let state = this.state;
-                    state.status.code = 'ready';
-                    this.setState(state);
                   } else {
-                    let state = this.state;
-                    state.status.code = 'error';
-                    state.status.detail = 'Failure to access IndexedDB manifest';
-                    this.setState(state);
+                    throw 'Failure to access IndexedDB manifest';
                   }
                 });
             }
           })
-          .catch(error => {
-            let state = this.state;
-            state.status.code = 'error';
-            state.status.detail = error;
-            this.setState(state);
-          });
+        )
+    ];
+
+    if (this.state.user.membershipId && this.state.user.membershipType) {
+      // User has a saved membership, pre-emptively load it
+      promises.push(
+        new Promise(resolve => {
+          getProfile(this.state.user.membershipType, this.state.user.membershipId)
+            .then(data => {
+              const state = this.state;
+              state.user.data = data;
+              this.setState(state);
+              resolve();
+            })
+            .catch(error => {
+              // Don't care if we can't load the profile at this stage,
+              // worry about it later.
+              console.log(error);
+              resolve();
+            });
+        })
+      );
+    }
+
+    Promise.all(promises)
+      .then(() => {
+        const state = this.state;
+        state.status.code = 'ready';
+        this.setState(state);
+      })
+      .catch(error => {
+        let state = this.state;
+        state.status.code = 'error';
+        state.status.detail = error;
+        this.setState(state);
       });
   }
 
