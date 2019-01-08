@@ -53,7 +53,9 @@ class CharacterSelect extends React.Component {
             return;
           }
           this.setState({
-            results: SearchResponse.Response,
+            search: {
+              results: SearchResponse.Response
+            },
             error: false
           });
         })
@@ -70,7 +72,7 @@ class CharacterSelect extends React.Component {
   resultClick = (membershipType, membershipId, displayName) => {
     window.scrollTo(0, 0);
 
-    this.getProfile(membershipType, membershipId, this.getProfileCallback);
+    this.getProfile(membershipType, membershipId);
 
     if (displayName) {
       ls.update('history.profiles', { membershipType: membershipType, membershipId: membershipId, displayName: displayName }, true, 6);
@@ -119,7 +121,7 @@ class CharacterSelect extends React.Component {
                 <li className='linked' key={result.membershipId}>
                   <a
                     onClick={e => {
-                      this.ResultHandler(result.membershipType, result.membershipId, false, result.displayName);
+                      this.resultClick(result.membershipType, result.membershipId, result.displayName);
                     }}
                   >
                     <span className={`destiny-platform_${destinyEnums.PLATFORMS[result.membershipType].toLowerCase()}`} />
