@@ -171,116 +171,78 @@ class App extends Component {
       });
   };
 
-  getManifest = version => {
+  getManifest = async version => {
     let state = this.state;
     state.status.code = 'fetchManifest';
     state.manifest.version = version;
     this.setState(state);
 
-    let manifest = async () => {
-      const request = await fetch(`https://www.bungie.net${version}`);
-      const response = await request.json();
-      return response;
-    };
+    const request = await fetch(`https://www.bungie.net${version}`);
+    const manifest = await request.json();
 
-    manifest()
-      .then(manifest => {
-        let state = this.state;
-        state.status.code = 'setManifest';
-        this.setState(state);
-        dexie
-          .table('manifest')
-          .clear()
-          .then(() => {
-            dexie.table('manifest').add({
-              version: version,
-              value: manifest
-            });
-          })
-          .then(() => {
-            dexie
-              .table('manifest')
-              .toArray()
-              .then(manifest => {
-                this.manifest = manifest[0].value;
-                this.manifest.settings = this.bungieSettings;
-              });
-          });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    state = this.state;
+    state.status.code = 'setManifest';
+    this.setState(state);
+
+    await dexie.table('manifest').clear();
+
+    await dexie.table('manifest').add({
+      version: version,
+      value: manifest
+    });
+
+    return manifest;
   };
 
-  componentDidMount() {
-    this.updateViewport();
-    window.addEventListener('resize', this.updateViewport);
+  loadManifestAndProfile = async () => {
+    let manifest = await dexie.table('manifest').toArray();
 
-    const promises = [
-      dexie
-        .table('manifest')
-        .toArray()
-        .then(manifest => {
-          if (manifest.length > 0) {
-            let state = this.state;
-            state.manifest.version = manifest[0].version;
-            this.setState(state);
-          }
-        })
-        .then(() =>
-          this.getVersionAndSettings().then(version => {
-            if (version !== this.state.manifest.version) {
-              this.getManifest(version);
-            } else {
-              dexie
-                .table('manifest')
-                .toArray()
-                .then(manifest => {
-                  if (manifest.length > 0) {
-                    this.manifest = manifest[0].value;
-                    this.manifest.settings = this.bungieSettings;
-                  } else {
-                    throw 'Failure to access IndexedDB manifest';
-                  }
-                });
-            }
-          })
-        )
-    ];
+    if (manifest.length > 0) {
+      let state = this.state;
+      state.manifest.version = manifest[0].version;
+      this.setState(state);
+    }
+
+    const version = await this.getVersionAndSettings();
+    if (version !== this.state.manifest.version) {
+      this.manifest = await this.getManifest(version);
+    } else {
+      this.manifest = manifest[0].value;
+    }
+
+    this.manifest.settings = this.bungieSettings;
 
     if (this.state.user.membershipId && this.state.user.membershipType) {
       // User has a saved membership, pre-emptively load it
-      promises.push(
-        new Promise(resolve => {
-          getProfile(this.state.user.membershipType, this.state.user.membershipId)
-            .then(data => {
-              const state = this.state;
-              state.user.data = data;
-              this.setState(state);
-              resolve();
-            })
-            .catch(error => {
-              // Don't care if we can't load the profile at this stage,
-              // worry about it later.
-              console.log(error);
-              resolve();
-            });
-        })
-      );
-    }
-
-    Promise.all(promises)
-      .then(() => {
+      try {
+        const data = await getProfile(this.state.user.membershipType, this.state.user.membershipId);
         const state = this.state;
-        state.status.code = 'ready';
+        state.user.data = data;
         this.setState(state);
-      })
-      .catch(error => {
-        let state = this.state;
-        state.status.code = 'error';
-        state.status.detail = error;
-        this.setState(state);
-      });
+      } catch (error) {
+        // Don't care if we can't load the profile at this stage,
+        // worry about it later.
+        console.log(error);
+      }
+    }
+  };
+
+  async componentDidMount() {
+    this.updateViewport();
+    window.addEventListener('resize', this.updateViewport);
+
+    try {
+      await this.loadManifestAndProfile();
+      const state = this.state;
+      state.status.code = 'ready';
+      this.setState(state);
+    } catch (error) {
+      let state = this.state;
+      state.status.code = 'error';
+      state.status.detail = error;
+      console.log(error);
+      this.setState(state);
+    }
   }
 
   componentWillUnmount() {
