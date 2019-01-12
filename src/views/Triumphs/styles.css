@@ -49,7 +49,7 @@
 }
 
 #triumphs .parent-nodes .nodes .node {
-  flex-basis: calc(100% / 7);
+  width: calc(100% / 7);
   padding: 0 1rem;
   justify-content: center;
 }
@@ -282,7 +282,7 @@
 @media screen and (max-width: 1200px) {
 
   #triumphs .parent-nodes .nodes .node {
-    flex-basis: calc(100% / 4);
+    width: calc(100% / 4);
     padding: 0 2rem;
   }
   
@@ -302,7 +302,7 @@
   }
 
   #triumphs .parent-nodes .nodes .node {
-    flex-basis: calc(100% / 4);
+    width: calc(100% / 4);
     padding: 0 1rem;
     margin: 0 0 1rem;
   }
@@ -318,7 +318,7 @@
   }
 
   #triumphs .parent-nodes .nodes .node {
-    flex-basis: calc(100% / 3);
+    width: calc(100% / 3);
     padding: 0 1rem;
     margin: 0 0 2rem;
   }
