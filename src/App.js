@@ -137,89 +137,63 @@ class App extends Component {
 
     let manifest = async () => {
       const request = await fetch(`https://www.bungie.net${version}`);
-      const response = await request.json();
-      return response;
+      return await request.json();
     };
 
-    manifest()
-      .then(manifest => {
-        let state = this.state;
-        state.status.code = 'setManifest';
-        this.setState(state);
-        dexie
-          .table('manifest')
-          .clear()
-          .then(() => {
-            dexie.table('manifest').add({
+    manifest().then(manifest => {
+      let state = this.state;
+      state.status.code = 'setManifest';
+      this.setState(state);
+      dexie
+        .table('manifest')
+        .clear()
+        .then(() => {
+          dexie
+            .table('manifest')
+            .add({
               version: version,
               value: manifest
-            });
-          })
-          .then(() => {
-            dexie
-              .table('manifest')
-              .toArray()
-              .then(manifest => {
-                this.manifest = manifest[0].value;
-                this.manifest.settings = this.bungieSettings;
-                let state = this.state;
-                state.status.code = 'ready';
-                this.setState(state);
-              });
-          });
-      })
-      .catch(error => {
-        console.log(error);
-      });
+            })
+            .then();
+          this.setManifest(manifest);
+        });
+    });
   };
 
   componentDidMount() {
     this.updateViewport();
     window.addEventListener('resize', this.updateViewport);
 
-    dexie
+    const getVersion = this.getVersionAndSettings();
+    const getManifestFromIndexDb = dexie
       .table('manifest')
-      .toArray()
-      .then(manifest => {
-        if (manifest.length > 0) {
-          let state = this.state;
-          state.manifest.version = manifest[0].version;
-          this.setState(state);
+      .toCollection()
+      .first();
+
+    Promise.all([getVersion, getManifestFromIndexDb])
+      .then(([currentVersion, manifest]) => {
+        const cachedVersion = manifest && manifest.version;
+        if (cachedVersion !== currentVersion) {
+          this.getManifest(currentVersion);
+        } else {
+          this.setManifest(manifest.value);
         }
       })
-      .then(() => {
-        this.getVersionAndSettings()
-          .then(version => {
-            if (version !== this.state.manifest.version) {
-              this.getManifest(version);
-            } else {
-              dexie
-                .table('manifest')
-                .toArray()
-                .then(manifest => {
-                  if (manifest.length > 0) {
-                    this.manifest = manifest[0].value;
-                    this.manifest.settings = this.bungieSettings;
-                    let state = this.state;
-                    state.status.code = 'ready';
-                    this.setState(state);
-                  } else {
-                    let state = this.state;
-                    state.status.code = 'error';
-                    state.status.detail = 'Failure to access IndexedDB manifest';
-                    this.setState(state);
-                  }
-                });
-            }
-          })
-          .catch(error => {
-            let state = this.state;
-            state.status.code = 'error';
-            state.status.detail = error;
-            this.setState(state);
-          });
+      .catch(error => {
+        let state = this.state;
+        state.status.code = 'error';
+        state.status.detail = error;
+        this.setState(state);
       });
   }
+
+  setManifest = manifest => {
+    this.manifest = manifest;
+    this.manifest.settings = this.bungieSettings;
+    let state = this.state;
+    state.status.code = 'ready';
+    this.setState(state);
+  };
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateViewport);
@@ -229,8 +203,6 @@ class App extends Component {
     if (!window.ga) {
       GoogleAnalytics.init();
     }
-
-    // console.log(this.props)
 
     if (this.state.status.code !== 'ready') {
       return <Loading state={this.state.status} theme={this.props.theme.selected} />;
@@ -418,8 +390,6 @@ function mapStateToProps(state, ownProps) {
 }
 
 export default compose(
-  connect(
-    mapStateToProps
-  ),
+  connect(mapStateToProps),
   withNamespaces()
 )(App);
