@@ -41,7 +41,6 @@ async function apiRequest(membershipType, membershipId) {
 }
 
 async function getProfile(membershipType, membershipId, characterId = false, stateCallback) {
-  
   const state = store.getState();
 
   // console.log('getProfile', state);
@@ -64,7 +63,7 @@ async function getProfile(membershipType, membershipId, characterId = false, sta
     });
     return;
   }
-  
+
   if (data.profile.ErrorCode !== 1) {
     stateCallback({
       data: state.profile.data,
@@ -87,7 +86,7 @@ async function getProfile(membershipType, membershipId, characterId = false, sta
 
   data = responseUtils.profileScrubber(data);
   data = responseUtils.groupScrubber(data);
-  
+
   stateCallback({
     data: data,
     characterId: characterId,

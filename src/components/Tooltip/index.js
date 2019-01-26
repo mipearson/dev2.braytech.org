@@ -69,21 +69,33 @@ class Tooltip extends React.Component {
           hash: false
         });
       });
-      item.addEventListener('touchstart', e => {
-        this.touchMovement = false;
-      });
-      item.addEventListener('touchmove', e => {
-        this.touchMovement = true;
-      });
-      item.addEventListener('touchend', e => {
-        if (!this.touchMovement) {
-          if (e.currentTarget.dataset.itemhash) {
-            this.setState({
-              hash: parseInt(e.currentTarget.dataset.itemhash, 10)
-            });
+      item.addEventListener(
+        'touchstart',
+        e => {
+          this.touchMovement = false;
+        },
+        { passive: true }
+      );
+      item.addEventListener(
+        'touchmove',
+        e => {
+          this.touchMovement = true;
+        },
+        { passive: true }
+      );
+      item.addEventListener(
+        'touchend',
+        e => {
+          if (!this.touchMovement) {
+            if (e.currentTarget.dataset.itemhash) {
+              this.setState({
+                hash: parseInt(e.currentTarget.dataset.itemhash, 10)
+              });
+            }
           }
-        }
-      });
+        },
+        { passive: true }
+      );
     });
   };
 
@@ -98,10 +110,15 @@ class Tooltip extends React.Component {
     if (this.state.hash) {
       this.tooltip.current.addEventListener('touchstart', e => {
         this.touchMovement = false;
-      });
-      this.tooltip.current.addEventListener('touchmove', e => {
-        this.touchMovement = true;
-      });
+      }),
+        { passive: true };
+      this.tooltip.current.addEventListener(
+        'touchmove',
+        e => {
+          this.touchMovement = true;
+        },
+        { passive: true }
+      );
       this.tooltip.current.addEventListener('touchend', e => {
         e.preventDefault();
         if (!this.touchMovement) {
