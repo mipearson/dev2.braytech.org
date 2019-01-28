@@ -1,13 +1,22 @@
 // Bungie API access convenience methods
 import { Globals } from './globals';
 
+class BungieError extends Error {
+  constructor(request) {
+    super(request.Message);
+
+    this.errorCode = request.ErrorCode;
+    this.ErrorStatus = request.ErrorStatus;
+  }
+}
+
 async function apiRequest(path) {
   const options = { headers: { 'X-API-Key': Globals.key.bungie } };
 
   const request = await fetch(`https://www.bungie.net${path}`, options).then(r => r.json());
 
   if (request.ErrorCode !== 1) {
-    throw new Error(`Error retrieving ${path} from Bungie: (${request.ErrorStatus} code ${request.ErrorCode}) ${request.Message}`);
+    throw new BungieError(request);
   }
 
   return request.Response;
