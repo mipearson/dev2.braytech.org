@@ -51,19 +51,17 @@ class CharacterSelect extends React.Component {
     const { profile, theme, viewport, manifest } = this.props;
 
     const { from } = this.props.location.state || { from: { pathname: '/' } };
-
     const reverse = viewport.width <= 500;
-    const profileIsLoading = !profile.data && profile.membershipId && !profile.error;
 
     const profileCharacterSelect = (
       <div className='profile'>
-        {profileIsLoading && <Spinner />}
+        {profile.loading && <Spinner />}
         {profile.data && <Profile profile={profile} manifest={manifest} onCharacterClick={this.characterClick} from={from} />}
       </div>
     );
 
     return (
-      <div className={cx('view', theme.selected, { loading: this.props.loading })} id='get-profile'>
+      <div className={cx('view', theme.selected, { loading: profile.loading })} id='get-profile'>
         {reverse && profileCharacterSelect}
 
         <div className='search'>
