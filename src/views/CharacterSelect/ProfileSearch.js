@@ -3,9 +3,9 @@ import React from 'react';
 import { withNamespaces } from 'react-i18next';
 import * as destinyEnums from '../../utils/destinyEnums';
 import * as ls from '../../utils/localStorage';
-import errorHandler from '../../utils/errorHandler';
 import PropTypes from 'prop-types';
 import * as bungie from '../../utils/bungie';
+import debounce from 'lodash/debounce';
 
 import './styles.css';
 
@@ -28,28 +28,28 @@ class ProfileSearch extends React.Component {
     super(props);
 
     this.state = {
-      results: false,
-      error: false
+      results: false
     };
   }
 
   onSearchInput = e => {
-    let membershipType = '-1';
-    let displayName = e.target.value;
+    const displayName = e.target.value;
+    if (!displayName) return;
 
-    clearTimeout(this.inputTimeout);
-    this.inputTimeout = setTimeout(async () => {
-      if (!displayName) {
-        return;
-      }
-      const results = await bungie.playerSearch(membershipType, displayName);
-
-      this.setState({
-        results,
-        error: false
-      });
-    }, 1000);
+    this.searchForPlayers(displayName);
   };
+
+  searchForPlayers = debounce(async displayName => {
+    try {
+      this.setState({
+        results: await bungie.playerSearch('-1', displayName)
+      });
+    } catch (e) {
+      // If we get an error here it's usually because somebody is being cheeky
+      // (eg entering invalid search data), so log it only.
+      console.warn(`Error while searching for ${displayName}: ${e}`);
+    }
+  }, 1000);
 
   profileList = profiles => profiles.map(p => <SearchResult key={p.membershipId} onProfileClick={this.props.onProfileClick} profile={p} />);
 
@@ -60,9 +60,7 @@ class ProfileSearch extends React.Component {
     let history = ls.get('history.profiles') || [];
 
     return (
-      <div className='search'>
-        {this.state.error && errorHandler(this.state.error)}
-
+      <>
         <div className='sub-header sub'>
           <div>{t('Search for player')}</div>
         </div>
@@ -92,7 +90,7 @@ class ProfileSearch extends React.Component {
             </div>
           </>
         )}
-      </div>
+      </>
     );
   }
 }

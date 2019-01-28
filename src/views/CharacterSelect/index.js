@@ -5,9 +5,10 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import { withNamespaces } from 'react-i18next';
 
-import getProfile from '../../utils/getProfile';
+import getProfile from '../../utils/profile';
 import * as ls from '../../utils/localStorage';
 import Spinner from '../../components/Spinner';
+import errorHandler from '../../utils/errorHandler';
 
 import ProfileSearch from './ProfileSearch';
 import Profile from './Profile';
@@ -65,7 +66,10 @@ class CharacterSelect extends React.Component {
       <div className={cx('view', theme.selected, { loading: this.props.loading })} id='get-profile'>
         {reverse && profileCharacterSelect}
 
-        <ProfileSearch onProfileClick={this.profileClick} />
+        <div className='search'>
+          {profile.error && errorHandler(profile.error)}
+          <ProfileSearch onProfileClick={this.profileClick} />
+        </div>
 
         {!reverse && profileCharacterSelect}
       </div>
