@@ -60,12 +60,6 @@ class Account extends React.Component {
           legs: equipment.find(item => item.inventory.bucketTypeHash === 20886954)
         };
 
-        // Object.keys(loadout).forEach(key => {
-        //   loadout[key].instanceSockets = itemComponents.sockets.data[loadout[key].itemInstanceId];
-        // });
-
-        // console.log(loadout);
-
         let wellRested = utils.isWellRested(this.props.profile.data.profile.characterProgressions.data[character.characterId], manifest);
 
         charactersEl.push(
@@ -117,7 +111,7 @@ class Account extends React.Component {
                         return null;
                       } else {
                         return (
-                          <li key={item.itemInstanceId}>
+                          <li key={item.itemInstanceId} className={cx({ 'is-subclass': item.inventory.bucketTypeHash === 3284755031 })}>
                             <Item manifest={manifest} data={{ itemHash: item.hash, itemInstanceId: item.itemInstanceId, itemState: item.state }} />
                           </li>
                         );

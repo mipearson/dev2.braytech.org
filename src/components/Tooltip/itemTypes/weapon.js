@@ -6,7 +6,7 @@ import { damageTypeToString, ammoTypeToString } from '../../../utils/destinyUtil
 import { getSockets, getOrnaments } from '../../../utils/destinyItems';
 
 const weapon = (manifest, item) => {
-  let { stats, sockets } = getSockets(manifest, item, false, true);
+  let { stats, sockets } = getSockets(manifest, item, false, false, true);
   // let ornaments = getOrnaments(manifest, item.hash);
 
   let sourceString = item.collectibleHash ? (manifest.DestinyCollectibleDefinition[item.collectibleHash] ? manifest.DestinyCollectibleDefinition[item.collectibleHash].sourceString : false) : false;

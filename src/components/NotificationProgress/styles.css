@@ -139,7 +139,7 @@ html.backdropfilter #notification-progress .item {
 }
 
 #notification-progress.record .item {
-  background: radial-gradient(ellipse farthest-corner at 50% 100%, rgba(90, 163, 102, 1) 0%, rgba(135, 135, 135, 0) 100%);
+  background: radial-gradient(ellipse farthest-corner at 50% 100%, rgb(123, 220, 193) 0%, rgba(135, 135, 135, 0) 100%);
 }
 
 

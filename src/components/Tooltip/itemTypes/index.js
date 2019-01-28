@@ -38,6 +38,7 @@ export default (profile, manifest, props) => {
       state: props.itemState ? parseInt(props.itemState, 10) : false,
       instance: itemComponents.instances.data[props.itemInstanceId] ? itemComponents.instances.data[props.itemInstanceId] : false,
       sockets: itemComponents.sockets.data[props.itemInstanceId] ? itemComponents.sockets.data[props.itemInstanceId].sockets : false,
+      perks: itemComponents.perks.data[props.itemInstanceId] ? itemComponents.perks.data[props.itemInstanceId].perks : false,
       stats: itemComponents.stats.data[props.itemInstanceId] ? itemComponents.stats.data[props.itemInstanceId].stats : false
     };
   }
@@ -66,7 +67,7 @@ export default (profile, manifest, props) => {
         break;
       case 16:
         kind = 'ui sandbox-perk';
-        black = sandboxPerk(manifest, item);
+        black = subclass(manifest, item);
         break;
       case 19:
         kind = 'mod';

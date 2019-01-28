@@ -32,7 +32,7 @@ const interpolate = (investmentValue, displayInterpolation) => {
   return Math.round(displayValue);
 };
 
-export const getSockets = (manifest, item, mods = true, initialOnly = false, socketExclusions = []) => {
+export const getSockets = (manifest, item, traitsOnly = false, mods = true, initialOnly = false, socketExclusions = []) => {
   let statGroup = item.stats ? manifest.DestinyStatGroupDefinition[item.stats.statGroupHash] : false;
 
   let statModifiers = [];
@@ -62,17 +62,14 @@ export const getSockets = (manifest, item, mods = true, initialOnly = false, soc
     let categoryHash = item.sockets.socketCategories.find(category => category.socketIndexes.includes(parseInt(key, 10))) ? item.sockets.socketCategories.find(category => category.socketIndexes.includes(parseInt(key, 10))).socketCategoryHash : false;
 
     let modCategoryHash = [3379164649, 590099826, 2685412949, 4243480345, 590099826];
-    let mastworkSocketHash = [11855950, 2218962841];
+    let masterworkSocketHash = [11855950, 2218962841, 1666149691];
 
     if (socketExclusions.includes(socket.singleInitialItemHash) || (!mods && modCategoryHash.includes(categoryHash))) {
       return;
     }
 
-    // console.log(socket);
-
     socket.reusablePlugItems.forEach(reusablePlug => {
       let plug = manifest.DestinyInventoryItemDefinition[reusablePlug.plugItemHash];
-
       if (plug.hash === socket.singleInitialItemHash) {
         plug.investmentStats.forEach(modifier => {
           let index = statModifiers.findIndex(stat => stat.statHash === modifier.statTypeHash);
@@ -84,7 +81,7 @@ export const getSockets = (manifest, item, mods = true, initialOnly = false, soc
               value: modifier.value
             });
           }
-          if (mastworkSocketHash.includes(socket.socketTypeHash)) {
+          if (masterworkSocketHash.includes(socket.socketTypeHash)) {
             let index = statModifiersMasterworks.findIndex(stat => stat.statHash === modifier.statTypeHash);
             if (index > -1) {
               statModifiersMasterworks[index].value = statModifiersMasterworks[index].value + modifier.value;
@@ -103,7 +100,10 @@ export const getSockets = (manifest, item, mods = true, initialOnly = false, soc
 
     socket.reusablePlugItems.forEach(reusablePlug => {
       let plug = manifest.DestinyInventoryItemDefinition[reusablePlug.plugItemHash];
-
+      console.log(plug, traitsOnly)
+      if (traitsOnly && !plug.itemCategoryHashes.includes(3708671066)) {
+        return;
+      }
       if (initialOnly && plug.hash !== socket.singleInitialItemHash) {
         return;
       }
@@ -148,6 +148,10 @@ export const getSockets = (manifest, item, mods = true, initialOnly = false, soc
       return;
     }
 
+    if (singleInitialItem && traitsOnly && !singleInitialItem.definition.itemCategoryHashes.includes(3708671066)) {
+      return;
+    }
+
     socketsOutput.push({
       categoryHash,
       singleInitialItem,
@@ -156,7 +160,7 @@ export const getSockets = (manifest, item, mods = true, initialOnly = false, soc
   });
 
   let statsOutput = [];
-
+console.log(socketsOutput, statModifiersMasterworks)
   if (item.itemType === 3) {
     statGroup.scaledStats.forEach(stat => {
       let statModifier = statModifiers.find(modifier => modifier.statHash === stat.statHash);
@@ -167,7 +171,7 @@ export const getSockets = (manifest, item, mods = true, initialOnly = false, soc
         let modifier = statModifier ? statModifier.value : 0;
 
         let instanceStat = item.itemComponents && item.itemComponents.stats ? Object.values(item.itemComponents.stats).find(s => s.statHash === stat.statHash) : false;
-
+        
         let investmentStat = item.investmentStats.find(investment => investment.statTypeHash === stat.statHash);
         let scaledStats = statGroup.scaledStats.find(scale => scale.statHash === stat.statHash);
 

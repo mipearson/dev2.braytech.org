@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import getProfile from '../../utils/getProfile';
 
-const AUTO_REFRESH_INTERVAL = 20 * 1000;
+const AUTO_REFRESH_INTERVAL = 30 * 1000;
 const TIMEOUT = 60 * 60 * 1000;
 
 class RefreshService extends React.Component {

@@ -5,7 +5,7 @@ import ObservedImage from '../../ObservedImage';
 import { getSockets } from '../../../utils/destinyItems';
 
 const armour = (manifest, item) => {
-  let { stats, sockets } = getSockets(manifest, item, false, true);
+  let { stats, sockets } = getSockets(manifest, item, false, false, true);
 
   let sourceString = item.collectibleHash ? (manifest.DestinyCollectibleDefinition[item.collectibleHash] ? manifest.DestinyCollectibleDefinition[item.collectibleHash].sourceString : false) : false;
 

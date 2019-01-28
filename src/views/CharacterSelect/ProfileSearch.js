@@ -39,6 +39,9 @@ class ProfileSearch extends React.Component {
 
     clearTimeout(this.inputTimeout);
     this.inputTimeout = setTimeout(async () => {
+      if (!displayName) {
+        return;
+      }
       const results = await bungie.playerSearch(membershipType, displayName);
 
       this.setState({

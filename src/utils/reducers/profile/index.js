@@ -8,8 +8,7 @@ const defaultState = {
   data: false,
   prevData: false,
   loading: false,
-  error: false,
-  updated: undefined
+  error: false
 };
 
 export default function profileReducer(state = defaultState, action) {
@@ -36,7 +35,7 @@ export default function profileReducer(state = defaultState, action) {
       };
     case 'PROFILE_LOADED':
       if (state.prevData !== action.payload) {
-        action.payload.update = new Date().getTime();
+        action.payload.updated = new Date().getTime();
       }
       return {
         ...state,

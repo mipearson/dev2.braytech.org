@@ -99,6 +99,16 @@
   grid-template-columns: repeat(auto-fill, 48px);
 }
 
+#account .module .content.characters .character .summary .loadout .list.items li.is-subclass {
+  transform: rotate(45deg);
+  width: 34px;
+  align-items: center;
+  margin: 0 0 3px 7px;
+}
+
+#account .module .content.characters .character .summary .loadout .list.items li.is-subclass .item .image.icon {
+  transform: rotate(-45deg) scale(1.3);
+}
 
 
 
