@@ -28,7 +28,8 @@ class ProfileSearch extends React.Component {
     super(props);
 
     this.state = {
-      results: false
+      results: false,
+      search: ''
     };
     this.mounted = false;
   }
@@ -44,14 +45,19 @@ class ProfileSearch extends React.Component {
     this.mounted = false;
   }
 
-  onSearchInput = e => {
-    const displayName = e.target.value;
-    if (!displayName) return;
-
-    this.searchForPlayers(displayName);
+  onSearchChange = e => {
+    this.setState({ search: e.target.value });
+    this.searchForPlayers();
   };
 
-  searchForPlayers = debounce(async displayName => {
+  onSearchKeyPress = e => {
+    if (e.key === 'Enter') this.searchForPlayers.flush();
+  };
+
+  searchForPlayers = debounce(async () => {
+    const displayName = this.state.search;
+    if (!displayName) return;
+
     try {
       const results = await bungie.playerSearch('-1', displayName);
       if (this.mounted) this.setState({ results: results });
@@ -66,7 +72,7 @@ class ProfileSearch extends React.Component {
 
   render() {
     const { t } = this.props;
-    const { results } = this.state;
+    const { results, search } = this.state;
 
     let history = ls.get('history.profiles') || [];
 
@@ -78,7 +84,7 @@ class ProfileSearch extends React.Component {
 
         <div className='form'>
           <div className='field'>
-            <input onInput={this.onSearchInput} type='text' placeholder={t('insert gamertag')} spellCheck='false' />
+            <input onChange={this.onSearchChange} type='text' placeholder={t('insert gamertag')} spellCheck='false' value={search} onKeyPress={this.onSearchKeyPress} />
           </div>
         </div>
 
