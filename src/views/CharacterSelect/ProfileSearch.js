@@ -30,6 +30,18 @@ class ProfileSearch extends React.Component {
     this.state = {
       results: false
     };
+    this.mounted = false;
+  }
+
+  componentWillMount() {
+    this.mounted = true;
+  }
+
+  componentWillUnmount() {
+    // If we don't do this, the searchForPlayers may attempt to setState on
+    // an unmounted component. We can't cancel it effectively as it's using
+    // fetch, which doesn't support cancels :(
+    this.mounted = false;
   }
 
   onSearchInput = e => {
@@ -41,9 +53,8 @@ class ProfileSearch extends React.Component {
 
   searchForPlayers = debounce(async displayName => {
     try {
-      this.setState({
-        results: await bungie.playerSearch('-1', displayName)
-      });
+      const results = await bungie.playerSearch('-1', displayName);
+      if (this.mounted) this.setState({ results: results });
     } catch (e) {
       // If we get an error here it's usually because somebody is being cheeky
       // (eg entering invalid search data), so log it only.
