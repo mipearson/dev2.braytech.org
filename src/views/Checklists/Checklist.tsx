@@ -1,10 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withNamespaces } from 'react-i18next';
+import React, { ReactNode } from 'react';
+import { withNamespaces, WithNamespaces } from 'react-i18next';
 
 import ProgressBar from '../../components/ProgressBar';
 
-const Checklist = props => {
+interface ChecklistProps extends WithNamespaces {
+  name: ReactNode,
+  binding: ReactNode,
+  progressDescription: ReactNode,
+  totalItems: number,
+  completedItems: number,
+  children: ReactNode
+}
+
+const Checklist = (props: ChecklistProps) => {
   const { t, name, binding, totalItems, progressDescription, completedItems, children } = props;
 
   return (
@@ -26,7 +34,7 @@ const Checklist = props => {
           chunky
         />
       </div>
-      {children.length > 0 ? (
+      {children ? (
         <ul className='list no-interaction'>{children}</ul>
       ) : (
         <div className='info'>
@@ -35,14 +43,6 @@ const Checklist = props => {
       )}
     </>
   );
-};
-
-Checklist.propTypes = {
-  name: PropTypes.node.isRequired,
-  binding: PropTypes.node.isRequired,
-  progressDescription: PropTypes.string.isRequired,
-  totalItems: PropTypes.number.isRequired,
-  completedItems: PropTypes.number.isRequired
 };
 
 export default withNamespaces()(Checklist);

@@ -2,15 +2,14 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { withNamespaces } from 'react-i18next';
-import PropTypes from 'prop-types';
+import { withNamespaces, WithNamespaces } from 'react-i18next';
 import cx from 'classnames';
 
 import './styles.css';
 
 import ChecklistFactory from './ChecklistFactory';
 
-function getItemsPerPage(width) {
+function getItemsPerPage(width: number) {
   if (width >= 2000) return 5;
   if (width >= 1600) return 4;
   if (width >= 1200) return 3;
@@ -18,7 +17,14 @@ function getItemsPerPage(width) {
   return 1;
 }
 
-const ListButton = p => (
+interface ListButtonProps {
+  name: string;
+  onClick: (event: React.MouseEvent<HTMLAnchorElement,MouseEvent>) => void;
+  icon?: string | undefined;
+  visible?: boolean;
+}
+
+const ListButton = (p: ListButtonProps) => (
   <li key={p.name} className='linked'>
     <a
       className={cx({
@@ -32,15 +38,20 @@ const ListButton = p => (
   </li>
 );
 
-ListButton.propTypes = {
-  name: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  icon: PropTypes.string,
-  visible: PropTypes.bool
-};
+interface ChecklistProps extends WithNamespaces {
+  member: any;
+  collectibles?: any;
+  theme?: any;
+  viewport?: any;
+}
 
-export class Checklists extends React.Component {
-  constructor(props) {
+export class Checklists extends React.Component<ChecklistProps> {
+  state: {
+    page: number;
+    itemsPerPage: number;
+  };
+
+  constructor(props: ChecklistProps) {
     super(props);
 
     this.state = {
@@ -49,14 +60,14 @@ export class Checklists extends React.Component {
     };
   }
 
-  componentDidUpdate(prev) {
+  componentDidUpdate(prev: ChecklistProps) {
     const newWidth = this.props.viewport.width;
     if (prev.viewport.width !== newWidth) {
       this.setState({ itemsPerPage: getItemsPerPage(newWidth) });
     }
   }
 
-  changeSkip = index => {
+  changeSkip = (index: number) => {
     this.setState({
       page: Math.floor(index / this.state.itemsPerPage)
     });
@@ -87,7 +98,7 @@ export class Checklists extends React.Component {
       lists.push(f.caydesJournals());
     }
 
-    let sliceStart = parseInt(page, 10) * itemsPerPage;
+    let sliceStart = page * itemsPerPage;
     let sliceEnd = sliceStart + itemsPerPage;
 
     const visible = lists.slice(sliceStart, sliceEnd);
@@ -115,14 +126,8 @@ export class Checklists extends React.Component {
     );
   }
 }
-Checklists.propTypes = {
-  member: PropTypes.object.isRequired,
-  collectibles: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
-  viewport: PropTypes.object.isRequired
-};
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state: any, ownProps: any): Partial<ChecklistProps> {
   return {
     member: state.member,
     collectibles: state.collectibles,

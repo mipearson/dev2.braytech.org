@@ -7,8 +7,14 @@ import ChecklistFactoryHelpers from './ChecklistFactoryHelpers';
 
 import ReactMarkdown from 'react-markdown';
 
+import i18next from 'i18next';
+
 class ChecklistFactory {
-  constructor(t, profile, characterId, hideCompletedItems) {
+  t: i18next.TranslationFunction;
+  m: ChecklistFactoryHelpers;
+  profile: DestinyProfile;
+
+  constructor(t: i18next.TranslationFunction, profile: DestinyProfile, characterId: string, hideCompletedItems: boolean) {
     this.t = t;
     this.profile = profile;
     this.m = new ChecklistFactoryHelpers(t, profile, characterId, hideCompletedItems);
@@ -70,7 +76,7 @@ class ChecklistFactory {
       name: this.t('Corrupted Eggs'),
       icon: 'destiny-corrupted_eggs',
       progressDescription: this.t('Eggs destroyed'),
-      itemSubtitle: i => i.bubble || false,
+      itemSubtitle: i => i.bubble || '',
       items: this.m.checklistItems(2609997025)
     });
   }
@@ -81,7 +87,7 @@ class ChecklistFactory {
       icon: 'destiny-cat_statues',
       progressDescription: this.t('Feline friends satisfied'),
       items: this.m.checklistItems(2726513366),
-      itemSubtitle: i => i.bubble || false
+      itemSubtitle: i => i.bubble || ''
     });
   }
 
@@ -91,8 +97,8 @@ class ChecklistFactory {
       icon: 'destiny-sleeper_nodes',
       items: this.m.checklistItems(365218222),
       progressDescription: this.t('Sleeper nodes hacked'),
-      itemTitle: i => i.inventoryItem.replace('CB.NAV/RUN.()', ''),
-      itemSubtitle: i => i.bubble || false,
+      itemTitle: i => i.inventoryItem!.replace('CB.NAV/RUN.()', ''),
+      itemSubtitle: i => i.bubble || '',
       sortBy: ['inventoryItem']
     });
   }
@@ -113,7 +119,7 @@ class ChecklistFactory {
       icon: 'destiny-lost_memory_fragments',
       items: this.m.checklistItems(2955980198),
       progressDescription: this.t('Memories destroyed'),
-      itemSubtitle: i => i.bubble || false
+      itemSubtitle: i => i.bubble || ''
     });
   }
 

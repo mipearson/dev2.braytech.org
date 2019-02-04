@@ -1,8 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
 import cx from 'classnames';
 
-const ChecklistItem = props => {
+interface ChecklistItemProps {
+  completed: boolean;
+  children: ReactNode;
+  mapPath?: string | undefined;
+}
+
+const ChecklistItem = (props: ChecklistItemProps) => {
   const { completed, children, mapPath } = props;
 
   return (
@@ -18,10 +23,6 @@ const ChecklistItem = props => {
       )}
     </li>
   );
-};
-ChecklistItem.props = {
-  completed: PropTypes.bool,
-  mapPath: PropTypes.string
 };
 
 export default ChecklistItem;
