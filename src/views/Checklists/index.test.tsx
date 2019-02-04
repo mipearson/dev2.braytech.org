@@ -3,7 +3,7 @@ import React from 'react';
 import fs from 'fs';
 import path from 'path';
 
-import { Checklists } from './';
+import { Checklists } from '.';
 import TestRenderer from 'react-test-renderer';
 import ChecklistFactory from './ChecklistFactory';
 
@@ -13,7 +13,7 @@ import manifest from '../../utils/manifest';
 function loadManifest() {
   const filename = path.join(__dirname, '__fixtures__/manifest.json');
   if (fs.existsSync(filename)) {
-    return JSON.parse(fs.readFileSync(filename));
+    return JSON.parse(fs.readFileSync(filename).toString());
   } else {
     throw new Error(`
 Could not load manifest file for tests. It is ignored by git as it is 62mb uncompressed.
@@ -61,7 +61,7 @@ test(`Checklists matches shallow snapshot`, () => {
       width: 1280,
       height: 720
     },
-    profile: { characterId, data: dataShallow },
+    member: { characterId, data: dataShallow },
     theme: {},
     collectibles: {},
     t
