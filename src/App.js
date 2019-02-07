@@ -36,6 +36,7 @@ import Account from './views/Account';
 // import Character from './views/Character';
 import ThisWeek from './views/ThisWeek';
 import Vendors from './views/Vendors';
+import Inspect from './views/Inspect';
 import Read from './views/Read';
 import Settings from './views/Settings';
 import Pride from './views/Pride';
@@ -212,6 +213,7 @@ class App extends React.Component {
                   <CharacterRoute path='/triumphs/:primary?/:secondary?/:tertiary?/:quaternary?' render={route => <Triumphs {...route} />} />
                   <CharacterRoute path='/this-week' exact render={() => <ThisWeek />} />
                   <Route path='/vendors/:hash?' exact render={route => <Vendors {...route} />} />
+                  <Route path='/inspect/:hash?' exact render={route => <Inspect {...route} />} />
                   <Route path='/read/:kind?/:hash?' exact render={route => <Read {...route} />} />
                   <Route path='/settings' exact render={() => <Settings availableLanguages={this.availableLanguages} />} />
                   <Route path='/pride' exact render={() => <Pride />} />

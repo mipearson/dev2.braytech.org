@@ -98,7 +98,7 @@ class Records extends React.Component {
       }
 
       if (recordDefinition.objectiveHashes) {
-        recordDefinition.objectiveHashes.forEach(hash => {
+        recordDefinition.objectiveHashes.forEach((hash, index) => {
           let objectiveDefinition = manifest.DestinyObjectiveDefinition[hash];
 
           let playerProgress = null;
@@ -114,7 +114,7 @@ class Records extends React.Component {
               playerProgress.progress = 16;
             }
 
-            objectives.push(<ProgressBar key={objectiveDefinition.hash} objectiveDefinition={objectiveDefinition} playerProgress={playerProgress} />);
+            objectives.push(<ProgressBar key={`${hash}${index}`} objectiveDefinition={objectiveDefinition} playerProgress={playerProgress} />);
           } else if (characterRecords[characterId].records[recordDefinition.hash]) {
             characterRecords[characterId].records[recordDefinition.hash].objectives.forEach(objective => {
               if (objective.objectiveHash === hash) {

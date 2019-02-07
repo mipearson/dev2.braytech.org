@@ -7,7 +7,6 @@ import cx from 'classnames';
 
 import Root from './Root';
 import BadgeNode from './BadgeNode';
-import Inspect from './Inspect';
 import PresentationNode from './PresentationNode';
 
 import './styles.css';
@@ -51,14 +50,6 @@ class Collections extends React.Component {
                 </Link>
               </li>
             </ul>
-          </div>
-        </>
-      );
-    } else if (primaryHash === 'inspect') {
-      return (
-        <>
-          <div className='view' id='inspect'>
-            <Inspect {...this.props} />
           </div>
         </>
       );

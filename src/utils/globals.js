@@ -8,7 +8,7 @@ export const Globals = {
     bungie: 'https://www.bungie.net'
   },
   routes: {
-    standard: ['character-select', 'pride', 'credits', 'settings', 'resources', 'read'],
+    standard: ['character-select', 'pride', 'credits', 'settings', 'resources', 'read', 'inspect'],
     badboys: ['vendors']
   }
 };
@@ -29,7 +29,7 @@ export const isProfileRoute = (pathname, hasProfileData = false) => {
 
 export const themeOverride = pathname => {
   let paths = pathname.split('/');
-  if (['read'].includes(paths[1])) {
+  if (['read', 'inspect'].includes(paths[1])) {
     return 'dark-mode ' + paths[1];
   } else {
     return false;

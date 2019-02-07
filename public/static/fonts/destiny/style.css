@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'destiny';
-  src: url('destiny.woff?96jyy') format('woff');
+  src: url('destiny.woff?4qc432') format('woff');
   font-weight: normal;
   font-style: normal;
 }
@@ -19,14 +19,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.destiny-settings1:before {
-  content: "\e059";
-}
-.destiny-valkyrie1:before {
-  content: "\e066";
-}
-.destiny-bow1:before {
-  content: "\e099";
+.destiny-healing_sword:before {
+  content: "\e056";
 }
 .destiny-arrow:before {
   content: "\e9e0";
@@ -118,6 +112,21 @@
 .destiny-solar_tian_super:before {
   content: "\e9b6";
 }
+.destiny-void_shield1:before {
+  content: "\e066";
+}
+.destiny-thermal_knives1:before {
+  content: "\e068";
+}
+.destiny-arc_staff1:before {
+  content: "\e069";
+}
+.destiny-arc_beam:before {
+  content: "\e06a";
+}
+.destiny-nova_pulse:before {
+  content: "\e06b";
+}
 .destiny-golden_gun:before {
   content: "\e9b7";
 }
@@ -147,6 +156,18 @@
 }
 .destiny-hunter_smoke:before {
   content: "\e9c0";
+}
+.destiny-healing_sword1:before {
+  content: "\e059";
+}
+.destiny-void_blades1:before {
+  content: "\e05b";
+}
+.destiny-thermal_maul1:before {
+  content: "\e06c";
+}
+.destiny-meteor_strike1:before {
+  content: "\e05c";
 }
 .destiny-shield_artifact:before {
   content: "\e9c1";
@@ -180,6 +201,9 @@
 }
 .destiny-rocket_launcher:before {
   content: "\e9c9";
+}
+.destiny-machinegun:before {
+  content: "\e155";
 }
 .destiny-scout_rifle:before {
   content: "\e9ca";
@@ -953,4 +977,31 @@
 }
 .destiny-class_warlock:before {
   content: "\e90c";
+}
+.destiny-void_blades:before {
+  content: "\e057";
+}
+.destiny-meteor_strike:before {
+  content: "\e058";
+}
+.destiny-thermal_maul:before {
+  content: "\e060";
+}
+.destiny-void_shield:before {
+  content: "\e061";
+}
+.destiny-thermal_knives:before {
+  content: "\e062";
+}
+.destiny-arc_staff:before {
+  content: "\e063";
+}
+.destiny-nova_pulse1:before {
+  content: "\e064";
+}
+.destiny-arc_beam1:before {
+  content: "\e065";
+}
+.destiny-machinegun1:before {
+  content: "\e154";
 }

@@ -5,11 +5,32 @@ import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
 import Records from '../Records';
+import { enumerateRecordState } from '../../utils/destinyEnums';
 
 class RecordsTracked extends React.Component {
   render() {
-    const { triumphs, limit, pageLink } = this.props;
+    const { member, triumphs, limit, pageLink } = this.props;
+    const characterRecords = member.data.profile.characterRecords.data;
+    const profileRecords = member.data.profile.profileRecords.data.records;
+    const characterId = member.characterId;
     let hashes = triumphs.tracked;
+
+    
+
+    hashes = hashes.filter(hash => {
+
+      let state;
+      if (profileRecords[hash]) {
+        state = profileRecords[hash] ? profileRecords[hash].state : 0;
+      } else if (characterRecords[characterId].records[hash]) {
+        state = characterRecords[characterId].records[hash] ? characterRecords[characterId].records[hash].state : 0;
+      } else {
+        state = 0;
+      }
+
+      return !enumerateRecordState(state).recordRedeemed && enumerateRecordState(state).objectiveNotCompleted
+
+    });
 
     return (
       <ul className={cx('list record-items tracked')}>

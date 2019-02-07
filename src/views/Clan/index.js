@@ -43,13 +43,18 @@ class Clan extends React.Component {
     );
   }
 
-  async liteRefreshPromise(members) {
+  async liteRefreshPromise(members, fresh) {
     return await Promise.all(
       members.map(async member => {
         let oldProfile = member.profile;
         try {
           const profile = await bungie.memberProfile(member.destinyUserInfo.membershipType, member.destinyUserInfo.membershipId, '100,200,202,204,900');
           member.profile = profile;
+
+          let freshState = fresh && fresh.results.find(freshMember => freshMember.destinyUserInfo.membershipId === member.destinyUserInfo.membershipId);
+          if (freshState) {
+            member.isOnline = freshState.isOnline;
+          }
 
           if (!member.profile.characterProgressions.data) {
             return member;
@@ -76,8 +81,14 @@ class Clan extends React.Component {
     store.dispatch({
       type: 'GROUP_MEMBERS_LOADING'
     });
+    
+    let groupMembersResponse = false;
+    try {
+      groupMembersResponse = await bungie.groupMembers(this.props.groupMembers.groupId);
+    } catch(e) {
 
-    let memberResponses = await this.liteRefreshPromise(this.props.groupMembers.responses);
+    }
+    let memberResponses = await this.liteRefreshPromise(this.props.groupMembers.responses, groupMembersResponse);
 
     let payload = {
       groupId: this.props.groupMembers.groupId,
