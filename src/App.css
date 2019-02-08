@@ -9,46 +9,19 @@
 }
 
 .wrapper {
-  background-color: #f1f1f1;
-  color: #000;
-}
-
-.wrapper.light-mode {
-  background-color: #f1f1f1;
-}
-
-.wrapper.light-mode.profile-route {
   background-color: #888888;
-  color: #fff;
-}
-
-.wrapper.light-mode:not(.profile-route) #footer {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.wrapper.light-mode:not(.profile-route) #footer ul li:last-child a {
-  color: rgba(0, 0, 0, 0.8);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .wrapper.dark-mode {
-  background-color: #131313;
-  color: #fff;
-}
-
-.wrapper.dark-mode.profile-route {
   background-color: #212121;
 }
-
 .wrapper.dark-mode #footer {
   color: rgba(255, 255, 255, 0.6);
 }
 
 .wrapper.dark-mode #footer ul li:last-child a {
   color: rgba(255, 255, 255, 0.8);
-}
-
-.wrapper.profile-route #footer {
-  background-color: rgba(255, 255, 255, 0.05);
 }
 
 h3 {
@@ -386,17 +359,6 @@ button.square.active {
     margin: 2rem 2rem 1rem;
     width: calc(100% - 4rem);
   }
-}
-
-.wrapper.light-mode:not(.profile-route) .sub-header {
-  border-bottom: 2px solid rgba(0, 0, 0, 0.6);
-  background-color: rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.wrapper.light-mode:not(.profile-route) .sub-header.sub {
-  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
-  background-color: rgba(0, 0, 0, 0);
 }
 
 #error {

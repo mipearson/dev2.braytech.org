@@ -224,7 +224,7 @@ class Header extends React.Component {
     }
 
     return (
-      <div id='header' className={cx('profile-header', this.props.theme.selected, { navOpen: this.state.mobileNavOpen })}>
+      <div id='header' className={cx(this.props.theme.selected, { 'profile-header': profileEl, navOpen: this.state.mobileNavOpen })}>
         <div className='braytech'>
           <div className='logo'>
             <Link to='/'>
@@ -233,6 +233,33 @@ class Header extends React.Component {
             </Link>
           </div>
           {!viewsInline ? this.navOverlayLink(this.state.navOpen) : null}
+          {!profileEl ? (
+            <div className='ui'>
+              <div className='views'>
+                <ul>
+                  {views.map(view => {
+                    if (view.profile) {
+                      return (
+                        <li key={view.slug}>
+                          <ProfileNavLink to={view.slug} isActive={isActive} exact={view.exact}>
+                            {view.name}
+                          </ProfileNavLink>
+                        </li>
+                      );
+                    } else {
+                      return (
+                        <li key={view.slug}>
+                          <NavLink to={view.slug} exact={view.exact}>
+                            {view.name}
+                          </NavLink>
+                        </li>
+                      );
+                    }
+                  })}
+                </ul>
+              </div>
+            </div>
+          ) : null}
         </div>
         {profileEl}
       </div>
