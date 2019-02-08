@@ -204,10 +204,7 @@ class App extends React.Component {
               <Tooltip {...route} />
               <Route component={GoogleAnalytics.GoogleAnalytics} />
               <div className='main'>
-                <Switch>
-                  <Route path='/:membershipType([1|2|4])/:membershipId([0-9]+)?/:characterId([0-9]+)' render={(route) => <Header route={route} {...this.state} {...this.props} themeOverride={themeOverride(route.location.pathname)} isProfileRoute />} />
-                  <Route path='/' render={(route) => <Header route={route} {...this.state} {...this.props} themeOverride={themeOverride(route.location.pathname)} />} />
-                </Switch>
+                <Route path='/' render={route => <Header route={route} {...this.state} {...this.props} themeOverride={themeOverride(route.location.pathname)} isProfileRoute />} />
                 <Switch>
                   <Route path='/:membershipType([1|2|4])/:membershipId([0-9]+)/:characterId([0-9]+)' component={ProfileRoutes} />
                   <Route path='/character-select' render={route => <CharacterSelect location={route.location} viewport={this.state.viewport} />} />

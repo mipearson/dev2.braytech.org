@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
 import cx from 'classnames';
 
@@ -56,56 +56,49 @@ class Header extends React.Component {
   };
 
   render() {
-    const { t, viewport, member, refreshService, theme } = this.props;
+    const { t, route, viewport, member, refreshService, theme } = this.props;
     let views = [
       {
         name: t('Clan'),
         desc: t('Activity and statistics'),
         slug: '/clan',
-        exact: false
+        exact: false,
+        profile: true
       },
       {
         name: t('Collections'),
         desc: t('Items your Guardian has acquired'),
         slug: '/collections',
-        exact: false
+        exact: false,
+        profile: true
       },
       {
         name: t('Triumphs'),
         desc: t("Records of your Guardian's achievements"),
         slug: '/triumphs',
-        exact: false
+        exact: false,
+        profile: true
       },
-      // {
-      //   name: t('Character'),
-      //   desc: t('Character (dev only)'),
-      //   slug: '/character',
-      //   exact: true,
-      //   dev: true
-      // },
       {
         name: t('Account'),
         desc: t("Bird's eye view of your overall progress"),
         slug: '/account',
-        exact: true
+        exact: true,
+        profile: true
       },
       {
         name: t('Checklists'),
         desc: t('Made a list, check it twice'),
         slug: '/checklists',
-        exact: true
+        exact: true,
+        profile: true
       },
       {
         name: t('This Week'),
         desc: t('Prestigious records and valued items up for grabs this week'),
         slug: '/this-week',
-        exact: true
-      },
-      {
-        name: t('Vendors'),
-        desc: t("Tracking what's in stock across the Jovians"),
-        slug: '/vendors',
-        exact: false
+        exact: true,
+        profile: true
       },
       {
         name: t('Resources'),
@@ -126,9 +119,22 @@ class Header extends React.Component {
       viewsInline = true;
     }
 
+    let profileRoute = route.location.pathname.match(/\/(?:[1|2|4])\/(?:[0-9]+)\/(?:[0-9]+)\/(\w+)/);
+    let profileView = profileRoute ? profileRoute[1] : false;
+
+    console.log(this.props);
+
     let profileEl = null;
 
-    if (member.data) {
+    let isActive = (match, location) => {
+      if (match) {
+        return true;
+      } else {
+        return false;
+      }
+    };
+
+    if (profileView && member.data) {
       const characterId = member.characterId;
       const profile = member.data.profile.profile.data;
       const characters = member.data.profile.characters.data;
@@ -191,14 +197,23 @@ class Header extends React.Component {
               <div className='views'>
                 <ul>
                   {views.map(view => {
-                    let to = view.slug;
-                    return (
-                      <li key={view.slug}>
-                        <ProfileNavLink to={to} exact={view.exact}>
-                          {view.name}
-                        </ProfileNavLink>
-                      </li>
-                    );
+                    if (view.profile) {
+                      return (
+                        <li key={view.slug}>
+                          <ProfileNavLink to={view.slug} isActive={isActive} exact={view.exact}>
+                            {view.name}
+                          </ProfileNavLink>
+                        </li>
+                      );
+                    } else {
+                      return (
+                        <li key={view.slug}>
+                          <NavLink to={view.slug} exact={view.exact}>
+                            {view.name}
+                          </NavLink>
+                        </li>
+                      );
+                    }
                   })}
                 </ul>
               </div>
