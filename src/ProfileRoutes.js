@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
+import store from './utils/reduxStore';
+import getMember from './utils/getMember';
+
 import Clan from './views/Clan';
 import Collections from './views/Collections';
 import Triumphs from './views/Triumphs';
@@ -9,8 +12,23 @@ import Checklists from './views/Checklists';
 import Account from './views/Account';
 import ThisWeek from './views/ThisWeek';
 
-const Profile = ({ member, location, match, ...rest }) => {
+const profileOnTheFly = async (membershipType, membershipId, characterId) => {
+  try{
+    const data = await getMember(membershipType, membershipId);
+    store.dispatch({
+      type: 'MEMBER_LOADED',
+      payload: data
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const ProfileRoutes = ({ member, location, match, ...rest }) => {
   console.log(member, location, match);
+  // if (!member.membershipId !== match.params.membershipId && !member.data && !member.loading) {
+  //   await profileOnTheFly(match.params.membershipType, match.params.membershipId, match.params.characterId)
+  // }
   return (
     <>
       <Route path={`${match.url}/account`} exact render={route => <Account />} />
@@ -29,4 +47,4 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
-export default connect(mapStateToProps)(Profile);
+export default connect(mapStateToProps)(ProfileRoutes);
