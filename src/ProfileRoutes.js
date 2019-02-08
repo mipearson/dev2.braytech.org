@@ -27,6 +27,12 @@ class ProfileRoutes extends React.Component {
     console.log(member, location, match);
 
     if (!member.membershipId !== match.params.membershipId && !member.data && !member.loading) {
+      store.dispatch({ type: 'MEMBER_LOADING_NEW_MEMBERSHIP', payload: {
+        membershipType: match.params.membershipType,
+        membershipId: match.params.membershipId,
+        characterId: match.params.characterId
+      } });
+      
       try {
         const data = await getMember(match.params.membershipType, match.params.membershipId);
         store.dispatch({
@@ -53,7 +59,7 @@ class ProfileRoutes extends React.Component {
     console.log(member, location, match);
 
     if (!this.state.data) {
-      return null
+      return 'loading member data based on url params'
     } else {
       return (
         <>

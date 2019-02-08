@@ -84,6 +84,8 @@ class Header extends React.Component {
 
     views = process.env.NODE_ENV !== 'development' ? views.filter(view => !view.dev) : views;
 
+    console.log('header: ',this.props)
+
     if (this.props.member.data && this.props.member.characterId && isProfileRoute(this.props.route.location.pathname, true)) {
       return <HeaderProfile {...this.props} views={views} />;
     } else {

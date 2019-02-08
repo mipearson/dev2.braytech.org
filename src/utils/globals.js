@@ -18,9 +18,10 @@ export const isProfileRoute = (pathname, hasProfileData = false) => {
   // if (paths[1] === 'collections' && paths[2] === 'inspect') {
   //   return false;
   // } else
-  if (pathname !== '/' && !Globals.routes.standard.includes(paths[1]) && !Globals.routes.badboys.includes(paths[1])) {
+  console.log(paths[4])
+  if (pathname !== '/' && !Globals.routes.standard.includes(paths[4]) && !Globals.routes.badboys.includes(paths[4])) {
     return true;
-  } else if (Globals.routes.badboys.includes(paths[1]) && hasProfileData) {
+  } else if (Globals.routes.badboys.includes(paths[4]) && hasProfileData) {
     return true;
   } else {
     return false;
@@ -29,8 +30,8 @@ export const isProfileRoute = (pathname, hasProfileData = false) => {
 
 export const themeOverride = pathname => {
   let paths = pathname.split('/');
-  if (['read', 'inspect'].includes(paths[1])) {
-    return 'dark-mode ' + paths[1];
+  if (['read', 'inspect'].includes(paths[4])) {
+    return 'dark-mode ' + paths[4];
   } else {
     return false;
   }
