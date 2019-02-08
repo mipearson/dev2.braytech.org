@@ -131,6 +131,10 @@ class Clan extends React.Component {
       this.refreshActive = false;
 
       this.startInterval();
+    } else if (group.groupId && groupMembers.responses.length) {
+      this.startInterval();
+    } else {
+
     }
   }
 
