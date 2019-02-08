@@ -12,34 +12,62 @@ import Checklists from './views/Checklists';
 import Account from './views/Account';
 import ThisWeek from './views/ThisWeek';
 
-const profileOnTheFly = async (membershipType, membershipId, characterId) => {
-  try{
-    const data = await getMember(membershipType, membershipId);
-    store.dispatch({
-      type: 'MEMBER_LOADED',
-      payload: data
-    });
-  } catch (error) {
-    console.log(error);
+
+class ProfileRoutes extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      data: this.props.member.data ? true : false
+    };
+  }
+
+  async componentDidMount() {
+    const { member, location, match, ...rest } = this.props;
+    console.log(member, location, match);
+
+    if (!member.membershipId !== match.params.membershipId && !member.data && !member.loading) {
+      try {
+        const data = await getMember(match.params.membershipType, match.params.membershipId);
+        store.dispatch({
+          type: 'MEMBER_LOADED',
+          payload: data
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  componentDidUpdate() {
+    const { member, location, match, ...rest } = this.props;
+    if (member.data && !this.state.data) {
+      this.setState({
+        data: true
+      })
+    }
+  }
+
+  render() {
+    const { member, location, match, ...rest } = this.props;
+    console.log(member, location, match);
+
+    if (!this.state.data) {
+      return null
+    } else {
+      return (
+        <>
+          <Route path={`${match.url}/account`} exact render={route => <Account />} />
+          <Route path={`${match.url}/clan/:view?/:subView?`} exact render={route => <Clan view={route.match.params.view} subView={route.match.params.subView} />} />
+          <Route path={`${match.url}/checklists`} exact render={() => <Checklists viewport={this.state.viewport} />} />
+          <Route path={`${match.url}/collections/:primary?/:secondary?/:tertiary?/:quaternary?`} render={route => <Collections {...route} />} />
+          <Route path={`${match.url}/triumphs/:primary?/:secondary?/:tertiary?/:quaternary?`} render={route => <Triumphs {...route} />} />
+          <Route path={`${match.url}/this-week`} exact render={() => <ThisWeek />} />
+        </>
+      );
+    }
   }
 }
-
-const ProfileRoutes = ({ member, location, match, ...rest }) => {
-  console.log(member, location, match);
-  // if (!member.membershipId !== match.params.membershipId && !member.data && !member.loading) {
-  //   await profileOnTheFly(match.params.membershipType, match.params.membershipId, match.params.characterId)
-  // }
-  return (
-    <>
-      <Route path={`${match.url}/account`} exact render={route => <Account />} />
-      <Route path={`${match.url}/clan/:view?/:subView?`} exact render={route => <Clan view={route.match.params.view} subView={route.match.params.subView} />} />
-      <Route path={`${match.url}/checklists`} exact render={() => <Checklists viewport={this.state.viewport} />} />
-      <Route path={`${match.url}/collections/:primary?/:secondary?/:tertiary?/:quaternary?`} render={route => <Collections {...route} />} />
-      <Route path={`${match.url}/triumphs/:primary?/:secondary?/:tertiary?/:quaternary?`} render={route => <Triumphs {...route} />} />
-      <Route path={`${match.url}/this-week`} exact render={() => <ThisWeek />} />
-    </>
-  );
-};
 
 function mapStateToProps(state, ownProps) {
   return {
