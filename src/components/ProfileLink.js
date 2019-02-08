@@ -14,10 +14,6 @@ function BuildProfileLink({ to, children, component, member, ...rest }) {
   );
 }
 
-function BuildProfileNavLink(props) {
-  return <ProfileLink {...props} component={NavLink} />;
-}
-
 function mapStateToProps(state, ownProps) {
   return {
     member: state.member
@@ -25,4 +21,9 @@ function mapStateToProps(state, ownProps) {
 }
 
 export const ProfileLink = connect(mapStateToProps)(BuildProfileLink);
-export const ProfileNavLink = connect(mapStateToProps)(BuildProfileNavLink);
+
+function BuildProfileNavLink(props) {
+  return <ProfileLink {...props} component={NavLink} />;
+}
+
+export const ProfileNavLink = BuildProfileNavLink;
