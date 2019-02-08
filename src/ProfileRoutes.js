@@ -14,11 +14,11 @@ const Profile = ({ member, location, match, ...rest }) => {
   return (
     <>
       <Route path={`${match.url}/account`} exact render={route => <Account />} />
-      <Route path='/clan/:view?/:subView?' exact render={route => <Clan view={route.match.params.view} subView={route.match.params.subView} />} />
-      <Route path='/checklists' exact render={() => <Checklists viewport={this.state.viewport} />} />
-      <Route path='/collections/:primary?/:secondary?/:tertiary?/:quaternary?' render={route => <Collections {...route} />} />
+      <Route path={`${match.url}/clan/:view?/:subView?`} exact render={route => <Clan view={route.match.params.view} subView={route.match.params.subView} />} />
+      <Route path={`${match.url}/checklists`} exact render={() => <Checklists viewport={this.state.viewport} />} />
+      <Route path={`${match.url}/collections/:primary?/:secondary?/:tertiary?/:quaternary?`} render={route => <Collections {...route} />} />
       <Route path={`${match.url}/triumphs/:primary?/:secondary?/:tertiary?/:quaternary?`} render={route => <Triumphs {...route} />} />
-      <Route path='/this-week' exact render={() => <ThisWeek />} />
+      <Route path={`${match.url}/this-week`} exact render={() => <ThisWeek />} />
     </>
   );
 };
