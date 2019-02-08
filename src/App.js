@@ -25,6 +25,7 @@ import Footer from './components/Footer';
 import NotificationApp from './components/NotificationApp';
 import NotificationProgress from './components/NotificationProgress';
 import RefreshService from './components/RefreshService';
+import ProfileRoutes from './ProfileRoutes';
 
 import Index from './views/Index';
 import CharacterSelect from './views/CharacterSelect';
@@ -205,23 +206,18 @@ class App extends React.Component {
               <div className='main'>
                 <Header route={route} {...this.state} {...this.props} themeOverride={themeOverride(route.location.pathname)} />
                 <Switch>
+                  <Route path='/:membershipType([1|2|4])/:membershipId([0-9]+)/:characterId([0-9]+)' component={ProfileRoutes} />
                   <Route path='/character-select' render={route => <CharacterSelect location={route.location} viewport={this.state.viewport} />} />
-                  <CharacterRoute path='/account' exact render={route => <Account />} />
-                  <CharacterRoute path='/clan/:view?/:subView?' exact render={route => <Clan view={route.match.params.view} subView={route.match.params.subView} />} />
-                  <CharacterRoute path='/checklists' exact render={() => <Checklists viewport={this.state.viewport} />} />
-                  <CharacterRoute path='/collections/:primary?/:secondary?/:tertiary?/:quaternary?' render={route => <Collections {...route} />} />
-                  <CharacterRoute path='/triumphs/:primary?/:secondary?/:tertiary?/:quaternary?' render={route => <Triumphs {...route} />} />
-                  <CharacterRoute path='/this-week' exact render={() => <ThisWeek />} />
-                  <Route path='/vendors/:hash?' exact render={route => <Vendors {...route} />} />
-                  <Route path='/inspect/:hash?' exact render={route => <Inspect {...route} />} />
-                  <Route path='/read/:kind?/:hash?' exact render={route => <Read {...route} />} />
+                  <Route path='/vendors/:hash?' exact component={Vendors} />
+                  <Route path='/inspect/:hash?' exact component={Inspect} />
+                  <Route path='/read/:kind?/:hash?' exact component={Read} />
                   <Route path='/settings' exact render={() => <Settings availableLanguages={this.availableLanguages} />} />
-                  <Route path='/pride' exact render={() => <Pride />} />
-                  <Route path='/credits' exact render={() => <Credits />} />
-                  <Route path='/resources' exact render={() => <Resources />} />
-                  <Route path='/resources/clan-banner-builder/:decalBackgroundColorId?/:decalColorId?/:decalId?/:gonfalonColorId?/:gonfalonDetailColorId?/:gonfalonDetailId?/:gonfalonId?/' exact render={route => <ClanBannerBuilder {...route} />} />
-                  <Route path='/resources/god-rolls' exact render={() => <GodRolls />} />
-                  <Route path='/' exact render={() => <Index />} />
+                  <Route path='/pride' exact component={Pride} />
+                  <Route path='/credits' exact component={Credits} />
+                  <Route path='/resources' exact component={Resources} />
+                  <Route path='/resources/clan-banner-builder/:decalBackgroundColorId?/:decalColorId?/:decalId?/:gonfalonColorId?/:gonfalonDetailColorId?/:gonfalonDetailId?/:gonfalonId?/' exact component={ClanBannerBuilder} />
+                  <Route path='/resources/god-rolls' exact component={GodRolls} />
+                  <Route path='/' exact component={Index} />
                 </Switch>
               </div>
               <Footer route={route} />
