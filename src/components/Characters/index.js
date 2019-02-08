@@ -20,7 +20,7 @@ class Characters extends React.Component {
     const { t } = this.props;
     let characters = this.props.data.profile.characters.data;
     let characterProgressions = this.props.data.profile.characterProgressions.data;
-
+console.log(this.props)
     let charactersRender = [];
 
     characters.forEach(character => {
@@ -53,7 +53,7 @@ class Characters extends React.Component {
             />
           </div>
           <Link
-            to={this.props.location.pathname !== '/' ? this.props.location.pathname : '/account'}
+            to={this.props.location.pathname !== '/' ? this.props.location.pathname : `/account`}
             onClick={e => {
               this.props.characterClick(character.characterId);
             }}

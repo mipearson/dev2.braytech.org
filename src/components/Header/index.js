@@ -86,7 +86,7 @@ class Header extends React.Component {
 
     console.log('header: ',this.props)
 
-    if (this.props.member.data && this.props.member.characterId && isProfileRoute(this.props.route.location.pathname, true)) {
+    if (this.props.isProfileRoute && this.props.member.data) {
       return <HeaderProfile {...this.props} views={views} />;
     } else {
       return <HeaderStandard {...this.props} views={views} isIndex={this.props.route.location.pathname === '/' ? true : false} />;
