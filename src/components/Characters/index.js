@@ -11,22 +11,21 @@ import * as utils from '../../utils/destinyUtils';
 import './styles.css';
 
 class Characters extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
-    const { t } = this.props;
-    let characters = this.props.data.profile.characters.data;
-    let characterProgressions = this.props.data.profile.characterProgressions.data;
-console.log(`Characters component: `,this.props)
+    const { t, member } = this.props;
+    let characters = member.data.profile.characters.data;
+    let characterProgressions = member.data.profile.characterProgressions.data;
+
+    console.log(`Characters component: `, this.props);
+
     let charactersRender = [];
 
     characters.forEach(character => {
       let capped = characterProgressions[character.characterId].progressions[1716568313].level === characterProgressions[character.characterId].progressions[1716568313].levelCap ? true : false;
 
       let progress = capped ? characterProgressions[character.characterId].progressions[2030054750].progressToNextLevel / characterProgressions[character.characterId].progressions[2030054750].nextLevelAt : characterProgressions[character.characterId].progressions[1716568313].progressToNextLevel / characterProgressions[character.characterId].progressions[1716568313].nextLevelAt;
+
+      let profileLink = `/${member.membershipType}/${member.membershipId}/${character.characterId}/account`;
 
       charactersRender.push(
         <li key={character.characterId} className='linked'>
@@ -53,7 +52,7 @@ console.log(`Characters component: `,this.props)
             />
           </div>
           <Link
-            to={this.props.location.pathname !== '/' ? this.props.location.pathname : `/account`}
+            to={profileLink}
             onClick={e => {
               this.props.characterClick(character.characterId);
             }}
@@ -72,6 +71,7 @@ console.log(`Characters component: `,this.props)
 
 function mapStateToProps(state, ownProps) {
   return {
+    member: state.member,
     theme: state.theme
   };
 }

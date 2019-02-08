@@ -70,7 +70,7 @@ class CharacterSelect extends React.Component {
   render() {
     const { member, theme, viewport } = this.props;
     const { error, loading } = member;
-console.log(member)
+    console.log(member);
     const { from } = this.props.location.state || { from: { pathname: '/' } };
     const reverse = viewport.width <= 500;
 

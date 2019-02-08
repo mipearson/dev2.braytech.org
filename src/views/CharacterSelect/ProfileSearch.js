@@ -84,7 +84,7 @@ class ProfileSearch extends React.Component {
     if (searching) {
       return (
         <li>
-          <Spinner />
+          <Spinner mini />
         </li>
       );
     }
