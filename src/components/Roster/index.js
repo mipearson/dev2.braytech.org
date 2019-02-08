@@ -185,7 +185,7 @@ class Roster extends React.Component {
               </li>
               <li className='nightfalls'>
                 <ul>
-                  <li>Nigthfalls completed</li>
+                  <li>Nightfalls completed</li>
                   <li>{member.historicalStats.nightfall.allTime ? member.historicalStats.nightfall.allTime.activitiesCleared.basic.value : `–`}</li>
                 </ul>
               </li>
