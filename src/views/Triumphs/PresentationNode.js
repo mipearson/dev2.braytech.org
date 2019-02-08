@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import cx from 'classnames';
 
 import manifest from '../../utils/manifest';
-import { ProfileLink } from '../../components/ProfileLink';
+import { ProfileLink, ProfileNavLink } from '../../components/ProfileLink';
 import ObservedImage from '../../components/ObservedImage';
 import Records from '../../components/Records';
 
@@ -39,9 +39,9 @@ class PresentationNode extends React.Component {
 
       primaryChildren.push(
         <li key={node.hash} className='linked'>
-          <NavLink isActive={isActive} to={`/triumphs/${primaryHash}/${node.hash}`}>
+          <ProfileNavLink isActive={isActive} to={`/triumphs/${primaryHash}/${node.hash}`}>
             <ObservedImage className={cx('image', 'icon')} src={`https://www.bungie.net${node.displayProperties.icon}`} />
-          </NavLink>
+          </ProfileNavLink>
         </li>
       );
     });
@@ -66,9 +66,9 @@ class PresentationNode extends React.Component {
 
       secondaryChildren.push(
         <li key={node.hash} className='linked'>
-          <NavLink isActive={isActive} to={`/triumphs/${primaryHash}/${secondaryHash}/${node.hash}`}>
+          <ProfileNavLink isActive={isActive} to={`/triumphs/${primaryHash}/${secondaryHash}/${node.hash}`}>
             {node.displayProperties.name.length > 24 ? node.displayProperties.name.slice(0, 24) + '...' : node.displayProperties.name}
-          </NavLink>
+          </ProfileNavLink>
         </li>
       );
     });

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
 import manifest from '../../utils/manifest';
-import ProfileLink from '../../components/ProfileLink';
+import { ProfileLink } from '../../components/ProfileLink';
 import ObservedImage from '../../components/ObservedImage';
 import { enumerateRecordState } from '../../utils/destinyEnums';
 import RecordsAlmost from '../../components/RecordsAlmost';
