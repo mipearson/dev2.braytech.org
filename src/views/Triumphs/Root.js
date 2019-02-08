@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
 import manifest from '../../utils/manifest';
+import ProfileLink from '../../components/ProfileLink';
 import ObservedImage from '../../components/ObservedImage';
 import { enumerateRecordState } from '../../utils/destinyEnums';
 import RecordsAlmost from '../../components/RecordsAlmost';
@@ -142,7 +143,7 @@ class Root extends React.Component {
               <span>{nodeCompleted}</span> / {nodeTotal}
             </div>
           </div>
-          <Link to={`/triumphs/${node.hash}`} />
+          <ProfileLink to={`/triumphs/${node.hash}`} />
         </li>
       );
     });
@@ -178,7 +179,7 @@ class Root extends React.Component {
               <span>{sealCompleted}</span> / {sealToal}
             </div>
           </div>
-          <Link to={`/triumphs/seal/${node.hash}`} />
+          <ProfileLink to={`/triumphs/seal/${node.hash}`} />
         </li>
       );
     });

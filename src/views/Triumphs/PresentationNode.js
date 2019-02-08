@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import cx from 'classnames';
 
 import manifest from '../../utils/manifest';
+import { ProfileLink } from '../../components/ProfileLink';
 import ObservedImage from '../../components/ObservedImage';
 import Records from '../../components/Records';
 
