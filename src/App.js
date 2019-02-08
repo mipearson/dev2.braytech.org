@@ -84,11 +84,11 @@ class App extends React.Component {
       bungieSettings: timed('getSettings', bungie.settings())
     };
 
-    const member = props.member;
+    // const member = props.member;
 
-    if (member && member.membershipId && member.membershipType) {
-      this.startupRequests.member = timed('getMember', getMember(member.membershipType, member.membershipId));
-    }
+    // if (member && member.membershipId && member.membershipType) {
+    //   this.startupRequests.member = timed('getMember', getMember(member.membershipType, member.membershipId));
+    // }
   }
 
   updateViewport = () => {
@@ -133,20 +133,20 @@ class App extends React.Component {
     tmpManifest.settings = await this.startupRequests.bungieSettings;
     this.availableLanguages = Object.keys(manifestIndex.jsonWorldContentPaths);
 
-    if (this.startupRequests.member) {
-      try {
-        this.setState({ status: { code: 'fetchProfile' } });
-        const data = await this.startupRequests.member;
-        store.dispatch({
-          type: 'MEMBER_LOADED',
-          payload: data
-        });
-      } catch (error) {
-        // Ignore it if we can't load the member on app boot - the user will just
-        // need to select a new member
-        console.log(error);
-      }
-    }
+    // if (this.startupRequests.member) {
+    //   try {
+    //     this.setState({ status: { code: 'fetchProfile' } });
+    //     const data = await this.startupRequests.member;
+    //     store.dispatch({
+    //       type: 'MEMBER_LOADED',
+    //       payload: data
+    //     });
+    //   } catch (error) {
+    //     // Ignore it if we can't load the member on app boot - the user will just
+    //     // need to select a new member
+    //     console.log(error);
+    //   }
+    // }
 
     manifest.set(tmpManifest);
 
@@ -194,12 +194,12 @@ class App extends React.Component {
           render={route => (
             <div className={this.wrapperClassName(route)}>
               <NotificationApp updateAvailable={this.props.updateAvailable} />
-              <NotificationProgress />
+              {/* <NotificationProgress /> */}
 
               {/* Don't run the refresh service if we're currently selecting
                 a character, as the refresh will cause the member to
                 continually reload itself */}
-              <Route path='/character-select' children={({ match, ...rest }) => !match && <RefreshService {...this.props} />} />
+              {/* <Route path='/character-select' children={({ match, ...rest }) => !match && <RefreshService {...this.props} />} /> */}
 
               <Tooltip {...route} />
               <Route component={GoogleAnalytics.GoogleAnalytics} />
