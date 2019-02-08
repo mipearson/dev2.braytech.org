@@ -20,7 +20,7 @@ class Characters extends React.Component {
     const { t } = this.props;
     let characters = this.props.data.profile.characters.data;
     let characterProgressions = this.props.data.profile.characterProgressions.data;
-console.log(this.props)
+console.log(`Characters component: `,this.props)
     let charactersRender = [];
 
     characters.forEach(character => {
