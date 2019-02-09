@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
 import store from './utils/reduxStore';
-import getMember from './utils/getMember';
 
 import Clan from './views/Clan';
 import Collections from './views/Collections';
@@ -13,30 +12,28 @@ import Account from './views/Account';
 import ThisWeek from './views/ThisWeek';
 
 class ProfileRoutes extends React.Component {
-  async componentDidMount() {
+  componentDidMount() {
+    this.syncMemberships();
+  }
+
+  componentDidUpdate() {
+    this.syncMemberships();
+  }
+
+  syncMemberships() {
     const { member, location, match } = this.props;
     const { membershipId, membershipType, characterId } = match.params;
     console.log(member, location, match);
 
-    if (!member.data || member.membershipId !== membershipId || member.membershipType !== membershipType) {
+    if ((!member.data && !member.loading) || member.membershipId !== membershipId || member.membershipType !== membershipType) {
       store.dispatch({
-        type: 'MEMBER_LOADING_NEW_MEMBERSHIP',
+        type: 'MEMBER_LOAD_NEW_MEMBERSHIP',
         payload: { membershipId, membershipType }
       });
-
-      try {
-        const data = await getMember(membershipType, membershipId);
-        store.dispatch({
-          type: 'MEMBER_LOADED',
-          payload: data
-        });
-      } catch (error) {
-        console.log(error);
-      }
     }
 
     if (member.characterId !== characterId) {
-      store.dispatch({ type: 'MEMBER_SELECT_CHARACTER', payload: characterId });
+      store.dispatch({ type: 'MEMBER_CHARACTER_SELECT', payload: { membershipType, membershipId, characterId } });
     }
   }
 
@@ -44,7 +41,11 @@ class ProfileRoutes extends React.Component {
     const { member, location, match } = this.props;
     console.log(member, location, match);
 
-    if (!member.data) {
+    if (member.error) {
+      // Character select will be able to display the error for us & prompt
+      // them to pick a new character / member
+      return <Redirect to={{ pathname: '/character-select', state: { from: location } }} />;
+    } else if (!member.data) {
       return 'loading member data based on url params';
     } else {
       return (
