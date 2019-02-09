@@ -5,7 +5,7 @@ import { Link, NavLink } from 'react-router-dom';
 function BuildProfileLink({ to, children, component, member, ...rest }) {
   const LinkComponent = component || Link;
 
-  let memberPrefix = member.membershipId ? `/${member.membershipType}/${member.membershipId}/${member.characterId}` : '';
+  let memberPrefix = member.characterId ? `/${member.membershipType}/${member.membershipId}/${member.characterId}` : '';
 
   return (
     <LinkComponent to={{ pathname: `${memberPrefix}${to}` }}>
