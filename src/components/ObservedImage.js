@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-class ObservedImage extends React.Component {
+class ObservedImageInner extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -78,18 +78,6 @@ class ObservedImage extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.src !== this.props.src) {
-      this.setState({
-        downloaded: false,
-        styles: {}
-      });
-    }
-    if (prevState !== this.state && !this.observer) {
-      this.observe();
-    }
-  }
-
   render() {
     const { className, noConstraints, ...attributes } = this.props;
 
@@ -105,5 +93,10 @@ class ObservedImage extends React.Component {
     );
   }
 }
+
+// using Key here forces a full component remount when we are given a new
+// src, avoiding weirdness where the src changes but the component is still
+// downloading the old image
+const ObservedImage = props => <ObservedImageInner {...props} key={props.src} />;
 
 export default ObservedImage;
