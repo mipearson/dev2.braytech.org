@@ -1,9 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import cx from 'classnames';
 
 import * as bungie from '../../utils/bungie';
+import { ProfileNavLink } from '../../components/ProfileLink';
 import ClanBanner from '../../components/ClanBanner';
 import Roster from '../../components/Roster';
 import Spinner from '../../components/Spinner';
@@ -119,23 +119,20 @@ class AboutView extends React.Component {
             <div className='views'>
               <ul className='list'>
                 <li className='linked'>
-                  <NavLink to='/clan' exact>
+                  <ProfileNavLink to='/clan' exact>
                     {t('About')}
-                  </NavLink>
+                  </ProfileNavLink>
                 </li>
                 <li className='linked'>
-                  <NavLink to='/clan/roster'>{t('Roster')}</NavLink>
+                  <ProfileNavLink to='/clan/roster'>{t('Roster')}</ProfileNavLink>
                 </li>
-                {/* <li className='linked'>
-                  <NavLink to='/clan/stats'>{t('Stats')}</NavLink>
-                </li> */}
               </ul>
             </div>
             <div className='sub-header sub'>
               <div>{t('Clan roster')}</div>
               <div>{groupMembers.responses.filter(member => member.isOnline).length} online</div>
             </div>
-            {!groupMembers.loading ? <Roster mini linked isOnline /> : <Spinner />}
+            {groupMembers.loading && groupMembers.responses.length === 0 ? <Spinner /> : <Roster mini linked isOnline />}
           </div>
         </div>
       </div>

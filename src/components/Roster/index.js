@@ -8,6 +8,7 @@ import Moment from 'react-moment';
 import orderBy from 'lodash/orderBy';
 
 import Globals from '../../utils/globals';
+import { ProfileLink } from '../../components/ProfileLink';
 import manifest from '../../utils/manifest';
 import ObservedImage from '../../components/ObservedImage';
 import * as utils from '../../utils/destinyUtils';
@@ -278,7 +279,7 @@ class Roster extends React.Component {
         lastActivity: 0,
         element: (
           <li key='i_am_unqiue' className='linked view-all'>
-            <Link to='/clan/roster'>{t('View full roster')}</Link>
+            <ProfileLink to='/clan/roster'>{t('View full roster')}</ProfileLink>
           </li>
         )
       });

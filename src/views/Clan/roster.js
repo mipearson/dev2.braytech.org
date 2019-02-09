@@ -2,6 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import cx from 'classnames';
 
+import { ProfileNavLink } from '../../components/ProfileLink';
 import Roster from '../../components/Roster';
 import Spinner from '../../components/Spinner';
 
@@ -33,26 +34,18 @@ class RosterView extends React.Component {
             <div className='views'>
               <ul className='list'>
                 <li className='linked'>
-                  <NavLink to='/clan' exact>
+                  <ProfileNavLink to='/clan' exact>
                     {t('About')}
-                  </NavLink>
+                  </ProfileNavLink>
                 </li>
                 <li className='linked'>
-                  <NavLink to='/clan/roster'>{t('Roster')}</NavLink>
+                  <ProfileNavLink to='/clan/roster'>{t('Roster')}</ProfileNavLink>
                 </li>
-                {/* <li className='linked'>
-                  <NavLink to='/clan/stats'>{t('Stats')}</NavLink>
-                </li> */}
               </ul>
-            </div>
-            <div className='info'>
-              {/* <p>{t('Pulsing blueberries are freshly acquired members from the last 2 weeks.')}</p> */}
             </div>
           </div>
           <div className='members'>
-          <div className='liteRefresh'>
-            {groupMembers.loading && groupMembers.responses.length !== 0 ? <Spinner mini /> : null}
-          </div>
+            <div className='liteRefresh'>{groupMembers.loading && groupMembers.responses.length !== 0 ? <Spinner mini /> : null}</div>
             {groupMembers.loading && groupMembers.responses.length === 0 ? <Spinner /> : <Roster linked />}
           </div>
         </div>
