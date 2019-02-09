@@ -11,7 +11,6 @@ import Checklists from './views/Checklists';
 import Account from './views/Account';
 import ThisWeek from './views/ThisWeek';
 import Header from './components/Header';
-import { isProfileRoute, themeOverride } from './utils/globals';
 import Spinner from './components/Spinner';
 
 class ProfileRoutes extends React.Component {
@@ -44,7 +43,7 @@ class ProfileRoutes extends React.Component {
     if (!member.data) {
       return (
         <>
-          <Route path='/' render={route => <Header route={route} {...this.state} {...this.props} themeOverride={themeOverride(route.location.pathname)} isProfileRoute />} />
+          <Route path='/' render={route => <Header route={route} {...this.state} {...this.props} isProfileRoute />} />
           <Spinner />
         </>
       );
@@ -52,7 +51,7 @@ class ProfileRoutes extends React.Component {
 
     return (
       <>
-        <Route path='/' render={route => <Header route={route} {...this.state} {...this.props} themeOverride={themeOverride(route.location.pathname)} isProfileRoute />} />
+        <Route path='/' render={route => <Header route={route} {...this.state} {...this.props} isProfileRoute />} />
         <Switch>
           <Route path={`${match.url}/account`} exact render={route => <Account />} />
           <Route path={`${match.url}/clan/:view?/:subView?`} exact render={route => <Clan view={route.match.params.view} subView={route.match.params.subView} />} />

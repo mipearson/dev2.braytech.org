@@ -476,10 +476,10 @@ class ThisWeek extends React.Component {
             <div className='sub-title'>{manifest.DestinyDestinationDefinition[nightfall.destinationHash].displayProperties.name}</div>
             <h3>{nightfall.selectionScreenDisplayProperties.name}</h3>
             <ul className='list collection-items'>
-              <Collectibles selfLink {...this.props} hashes={consolidatedInfo.nightfall[nightfall.hash].collectibles} />
+              <Collectibles selfLinkFrom='/this-week' {...this.props} hashes={consolidatedInfo.nightfall[nightfall.hash].collectibles} />
             </ul>
             <ul className='list record-items'>
-              <Records selfLink {...this.props} hashes={consolidatedInfo.nightfall[nightfall.hash].triumphs} ordered />
+              <Records selfLinkFrom='/this-week' {...this.props} hashes={consolidatedInfo.nightfall[nightfall.hash].triumphs} ordered />
             </ul>
           </div>
         );
@@ -495,7 +495,7 @@ class ThisWeek extends React.Component {
             <div className='sub-title'>{manifest.DestinyDestinationDefinition[flashpoint.destinationHash].displayProperties.name}</div>
             <h3>{flashpoint.displayProperties.name}</h3>
             <ul className='list record-items'>
-              <Records selfLink {...this.props} hashes={consolidatedInfo.flashpoint[flashpoint.questItemHash].triumphs} ordered />
+              <Records selfLinkFrom='/this-week' {...this.props} hashes={consolidatedInfo.flashpoint[flashpoint.questItemHash].triumphs} ordered />
             </ul>
           </div>
           <div className='sub-header sub'>
@@ -505,7 +505,7 @@ class ThisWeek extends React.Component {
             <div className='sub-title'>{t('Mars')}</div>
             <h3>{consolidatedInfo.ep[cycleInfo.week.ep].boss}</h3>
             <ul className='list collection-items'>
-              <Collectibles selfLink {...this.props} hashes={consolidatedInfo.ep[cycleInfo.week.ep].collectibles} />
+              <Collectibles selfLinkFrom='/this-week' {...this.props} hashes={consolidatedInfo.ep[cycleInfo.week.ep].collectibles} />
             </ul>
           </div>
         </div>
@@ -525,7 +525,7 @@ class ThisWeek extends React.Component {
               {t('Cycle week')} {cycleInfo.week.curse}
             </h3>
             <ul className='list record-items'>
-              <Records selfLink {...this.props} hashes={consolidatedInfo.curse[cycleInfo.week.curse].triumphs} ordered />
+              <Records selfLinkFrom='/this-week' {...this.props} hashes={consolidatedInfo.curse[cycleInfo.week.curse].triumphs} ordered />
             </ul>
           </div>
         </div>
@@ -537,7 +537,7 @@ class ThisWeek extends React.Component {
             <div className='sub-title'>{consolidatedInfo.ascendant[cycleInfo.week.ascendant].region}</div>
             <h3>{consolidatedInfo.ascendant[cycleInfo.week.ascendant].challenge}</h3>
             <ul className='list record-items'>
-              <Records selfLink {...this.props} hashes={consolidatedInfo.ascendant[cycleInfo.week.ascendant].triumphs} ordered />
+              <Records selfLinkFrom='/this-week' {...this.props} hashes={consolidatedInfo.ascendant[cycleInfo.week.ascendant].triumphs} ordered />
             </ul>
           </div>
         </div>

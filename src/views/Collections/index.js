@@ -29,6 +29,8 @@ class Collections extends React.Component {
     const { t } = this.props;
     let primaryHash = this.props.match.params.primary ? this.props.match.params.primary : false;
 
+    let backLinkPath = this.props.location.state && this.props.location.state.from ? this.props.location.state.from : '/collections';
+
     if (!primaryHash) {
       return (
         <div className={cx('view', 'presentation-node', 'root', this.props.theme.selected)} id='collections'>
@@ -45,7 +47,7 @@ class Collections extends React.Component {
             <div />
             <ul>
               <li>
-                <ProfileLink to='/collections'>
+                <ProfileLink to={backLinkPath}>
                   <i className='uniF094' />
                   Back
                 </ProfileLink>
@@ -64,7 +66,7 @@ class Collections extends React.Component {
             <div />
             <ul>
               <li>
-                <ProfileLink to='/collections'>
+                <ProfileLink to={backLinkPath}>
                   <i className='uniF094' />
                   {t('Back')}
                 </ProfileLink>

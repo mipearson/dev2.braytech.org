@@ -98,7 +98,7 @@ class RecordsAlmost extends React.Component {
         );
       });
 
-      let selfLinkFrom = this.props.selfLinkFrom ? this.props.location.pathname : false;
+      let selfLinkFrom = this.props.selfLinkFrom || false;
 
       almost.push({
         distance: distance,

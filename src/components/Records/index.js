@@ -42,7 +42,8 @@ class Records extends React.Component {
   };
 
   render() {
-    const { hashes, highlight, member, triumphs, collectibles, ordered, limit, selfLink, selfLinkFrom, readLink } = this.props;
+    const { hashes, member, triumphs, collectibles, ordered, limit, selfLinkFrom, readLink } = this.props;
+    const highlight = parseInt(this.props.highlight, 10) || false;
     const recordsRequested = hashes;
     const characterRecords = member.data.profile.characterRecords.data;
     const profileRecords = member.data.profile.profileRecords.data.records;
@@ -59,7 +60,7 @@ class Records extends React.Component {
       let link = false;
 
       // selfLink
-      if (selfLink) {
+      if (selfLinkFrom) {
         try {
           let reverse1;
           let reverse2;
@@ -94,7 +95,7 @@ class Records extends React.Component {
       }
 
       // readLink
-      if (recordDefinition.loreHash && !selfLink && readLink) {
+      if (recordDefinition.loreHash && !selfLinkFrom && readLink) {
         link = `/read/record/${recordDefinition.hash}`;
       }
 
@@ -158,8 +159,7 @@ class Records extends React.Component {
         return;
       }
 
-      // eslint-disable-next-line eqeqeq
-      let ref = highlight == recordDefinition.hash ? this.scrollToRecordRef : null;
+      let ref = highlight === recordDefinition.hash ? this.scrollToRecordRef : null;
 
       if (recordDefinition.redacted) {
         recordsOutput.push({
@@ -195,11 +195,11 @@ class Records extends React.Component {
         }
 
         let linkTo;
-        if (link && selfLink) {
+        if (link && selfLinkFrom) {
           linkTo = {
             pathname: link,
             state: {
-              from: selfLinkFrom ? selfLinkFrom : false
+              from: selfLinkFrom
             }
           };
         }
@@ -222,8 +222,7 @@ class Records extends React.Component {
               ref={ref}
               className={cx({
                 linked: link && linkTo,
-                // eslint-disable-next-line eqeqeq
-                highlight: highlight && highlight == recordDefinition.hash,
+                highlight: highlight && highlight === recordDefinition.hash,
                 completed: enumerateRecordState(state).recordRedeemed,
                 unRedeemed: !enumerateRecordState(state).recordRedeemed && !enumerateRecordState(state).objectiveNotCompleted,
                 tracked: tracked.includes(recordDefinition.hash) && !enumerateRecordState(state).recordRedeemed && enumerateRecordState(state).objectiveNotCompleted,

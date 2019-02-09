@@ -30,3 +30,5 @@ function BuildProfileNavLink(props) {
 }
 
 export const ProfileNavLink = BuildProfileNavLink;
+
+// https://reacttraining.com/react-router/web/api/NavLink/isactive-func

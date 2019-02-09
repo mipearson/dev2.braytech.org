@@ -11,7 +11,6 @@ import Globals from '../../utils/globals';
 import ObservedImage from '../../components/ObservedImage';
 import Collectibles from '../../components/Collectibles';
 import Item from '../../components/Item';
-import RecordsTracked from '../../components/RecordsTracked';
 import ProgressBar from '../../components/ProgressBar';
 import * as utils from '../../utils/destinyUtils';
 import manifest from '../../utils/manifest';
@@ -34,8 +33,6 @@ class Account extends React.Component {
     const characterProgressions = this.props.member.data.profile.characterProgressions.data;
     const profileRecords = this.props.member.data.profile.profileRecords.data.records;
     const characterRecords = this.props.member.data.profile.characterRecords.data;
-    const genderHash = characters.find(character => character.characterId === characterId).genderHash;
-    const itemComponents = this.props.member.data.profile.itemComponents;
 
     const Characters = () => {
       let charactersEl = [];
@@ -124,98 +121,6 @@ class Account extends React.Component {
         );
       });
       return charactersEl;
-    };
-
-    const Seals = () => {
-      let progression = {
-        seals: {
-          text: t('Triumph Seals'),
-          noInteraction: false,
-          values: {
-            destinations: {
-              text: manifest.DestinyRecordDefinition[2757681677].titleInfo.titlesByGenderHash[genderHash],
-              nodeHash: 2588182977,
-              recordHash: 2757681677,
-              total: profileRecords[2757681677].objectives[0].completionValue,
-              completed: profileRecords[2757681677].objectives[0].progress
-            },
-            gambit: {
-              text: manifest.DestinyRecordDefinition[3798931976].titleInfo.titlesByGenderHash[genderHash],
-              nodeHash: 3481101973,
-              recordHash: 3798931976,
-              total: profileRecords[3798931976].objectives[0].completionValue,
-              completed: profileRecords[3798931976].objectives[0].progress
-            },
-            crucible: {
-              text: manifest.DestinyRecordDefinition[3369119720].titleInfo.titlesByGenderHash[genderHash],
-              nodeHash: 147928983,
-              recordHash: 3369119720,
-              total: profileRecords[3369119720].objectives[0].completionValue,
-              completed: profileRecords[3369119720].objectives[0].progress
-            },
-            lore: {
-              text: manifest.DestinyRecordDefinition[1754983323].titleInfo.titlesByGenderHash[genderHash],
-              nodeHash: 2693736750,
-              recordHash: 1754983323,
-              total: profileRecords[1754983323].objectives[0].completionValue,
-              completed: profileRecords[1754983323].objectives[0].progress
-            },
-            dreamingCity: {
-              text: manifest.DestinyRecordDefinition[1693645129].titleInfo.titlesByGenderHash[genderHash],
-              nodeHash: 2516503814,
-              recordHash: 1693645129,
-              total: profileRecords[1693645129].objectives[0].completionValue,
-              completed: profileRecords[1693645129].objectives[0].progress
-            },
-            raids: {
-              text: manifest.DestinyRecordDefinition[2182090828].titleInfo.titlesByGenderHash[genderHash],
-              nodeHash: 1162218545,
-              recordHash: 2182090828,
-              total: profileRecords[2182090828].objectives[0].completionValue,
-              completed: profileRecords[2182090828].objectives[0].progress
-            },
-            armoury: {
-              text: manifest.DestinyRecordDefinition[2053985130].titleInfo.titlesByGenderHash[genderHash],
-              nodeHash: 2039028930,
-              recordHash: 2053985130,
-              total: profileRecords[2053985130].objectives[0].completionValue,
-              completed: profileRecords[2053985130].objectives[0].progress
-            }
-          }
-        }
-      };
-
-      let list = [];
-
-      for (const [key, value] of Object.entries(progression.seals.values)) {
-        list.push(
-          <li key={key}>
-            <ProgressBar
-              objectiveDefinition={{
-                progressDescription: value.text,
-                completionValue: value.total
-              }}
-              playerProgress={{
-                progress: value.completed,
-                objectiveHash: value.recordHash
-              }}
-              hideCheck
-              chunky
-            />
-            {/* <Link to={`/progression/${props.match.params.membershipType}/${props.match.params.membershipId}/${props.match.params.characterId}/triumphs/seal/${value.nodeHash}`} /> */}
-          </li>
-        );
-      }
-
-      return (
-        <ul
-          className={cx('list', {
-            'no-interaction': true // progression.seals.noInteraction
-          })}
-        >
-          {list}
-        </ul>
-      );
     };
 
     const RareCollectibles = () => {
@@ -391,12 +296,7 @@ class Account extends React.Component {
     return (
       <div className={cx('view', this.props.theme.selected)} id='account'>
         <div className='module'>
-          <div className='sub-header sub'>
-            <div>{t('Tracked triumphs')}</div>
-          </div>
-          <div className='content tracked'>
-            <RecordsTracked {...this.props} limit='7' pageLink />
-          </div>
+
         </div>
         <div className='module'>
           <div className='sub-header sub'>

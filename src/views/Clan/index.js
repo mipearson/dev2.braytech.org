@@ -11,7 +11,6 @@ import * as bungie from '../../utils/bungie';
 import './styles.css';
 import AboutView from './about.js';
 import RosterView from './roster.js';
-import StatsView from './stats.js';
 
 class Clan extends React.Component {
   constructor(props) {

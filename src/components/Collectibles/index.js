@@ -31,7 +31,8 @@ class Collectibles extends React.Component {
     const characterCollectibles = this.props.member.data.profile.characterCollectibles.data;
     const profileCollectibles = this.props.member.data.profile.profileCollectibles.data;
 
-    const highlight = this.props.highlight;
+    const highlight = parseInt(this.props.highlight, 10) || false;
+
     let collectibles = [];
 
     if (this.props.node) {
@@ -153,7 +154,7 @@ class Collectibles extends React.Component {
 
         let link = false;
 
-        // selfLink
+        // selfLinkFrom
 
         try {
           let reverse1;
@@ -192,7 +193,6 @@ class Collectibles extends React.Component {
           console.log(e);
         }
 
-        //
         let state = 0;
         let scope = profileCollectibles.collectibles[hash] ? profileCollectibles.collectibles[hash] : characterCollectibles[characterId].collectibles[hash];
         if (scope) {
@@ -207,7 +207,7 @@ class Collectibles extends React.Component {
           <li
             key={collectibleDefinition.hash}
             className={cx('tooltip', {
-              linked: link && this.props.selfLink,
+              linked: link && this.props.selfLinkFrom,
               completed: !enumerateCollectibleState(state).notAcquired
             })}
             data-itemhash={collectibleDefinition.itemHash}
@@ -218,7 +218,7 @@ class Collectibles extends React.Component {
             <div className='text'>
               <div className='name'>{collectibleDefinition.displayProperties.name}</div>
             </div>
-            {link && this.props.selfLink ? <ProfileLink to={link} /> : null}
+            {link && this.props.selfLinkFrom ? <ProfileLink to={{ pathname: link, state: { from: this.props.selfLinkFrom } }} /> : null}
           </li>
         );
       });
