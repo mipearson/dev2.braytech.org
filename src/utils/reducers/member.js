@@ -19,13 +19,11 @@ export default function memberReducer(state = defaultState, action) {
         characterId: action.payload
       };
     case 'MEMBER_LOADING_NEW_MEMBERSHIP':
-      const reset = action.payload.membershipId !== state.membershipId || action.payload.membershipType !== state.membershipType;
       return {
         ...state,
         membershipId: action.payload.membershipId,
         membershipType: action.payload.membershipType,
-        characterId: action.payload.characterId,
-        data: reset ? false : state.data,
+        data: false,
         error: false,
         loading: true
       };
