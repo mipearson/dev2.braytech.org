@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import cx from 'classnames';
+import { connect } from 'react-redux';
 
 import './styles.css';
 
@@ -108,4 +109,10 @@ class HeaderStandard extends React.Component {
   }
 }
 
-export default HeaderStandard;
+function mapStateToProps(state, ownProps) {
+  return {
+    viewport: state.viewport
+  };
+}
+
+export default connect(mapStateToProps)(HeaderStandard);
