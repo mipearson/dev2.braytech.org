@@ -184,7 +184,7 @@ export function ammoTypeToString(type) {
 }
 
 function stringToIconsWrapper(string) {
-  return <span className={`destiny-${string}`} />;
+  return <span key={`icon-${string}`} className={`destiny-${string}`} />;
 }
 
 export function stringToIcons(string) {
