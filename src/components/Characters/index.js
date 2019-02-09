@@ -16,7 +16,7 @@ class Characters extends React.Component {
     let characters = member.data.profile.characters.data;
     let characterProgressions = member.data.profile.characterProgressions.data;
 
-    console.log(`Characters component: `, this.props);
+    // console.log(`Characters component: `, this.props);
 
     let charactersRender = [];
 
@@ -25,6 +25,7 @@ class Characters extends React.Component {
 
       let progress = capped ? characterProgressions[character.characterId].progressions[2030054750].progressToNextLevel / characterProgressions[character.characterId].progressions[2030054750].nextLevelAt : characterProgressions[character.characterId].progressions[1716568313].progressToNextLevel / characterProgressions[character.characterId].progressions[1716568313].nextLevelAt;
 
+      // let profileLink = `/${member.membershipType}/${member.membershipId}/${character.characterId}${this.props.location.pathname}`;
       let profileLink = `/${member.membershipType}/${member.membershipId}/${character.characterId}/account`;
 
       charactersRender.push(

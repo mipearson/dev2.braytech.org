@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { withNamespaces } from 'react-i18next';
 import cx from 'classnames';
 
@@ -206,8 +206,16 @@ class App extends React.Component {
               <div className='main'>
                 <Route path='/' render={route => <Header route={route} {...this.state} {...this.props} themeOverride={themeOverride(route.location.pathname)} isProfileRoute />} />
                 <Switch>
-                  <Route path='/:membershipType([1|2|4])/:membershipId([0-9]+)/:characterId([0-9]+)' component={ProfileRoutes} />
-                  <Route path='/character-select' render={route => <CharacterSelect location={route.location} viewport={this.state.viewport} />} />
+                  <Route path='/:membershipType([1|2|4])/:membershipId([0-9]+)/:characterId([0-9]+)' render={route => <ProfileRoutes viewport={this.state.viewport} {...route} /> } />
+                  
+                  <Route path='/account' exact render={route => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
+                  <Route path='/clan/:view?/:subView?' exact render={route => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
+                  <Route path='/checklists' exact render={() => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
+                  <Route path='/collections/:primary?/:secondary?/:tertiary?/:quaternary?' render={route => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
+                  <Route path='/triumphs/:primary?/:secondary?/:tertiary?/:quaternary?' render={route => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
+                  <Route path='/this-week' exact render={() => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
+
+                  <Route path='/character-select' render={route => <CharacterSelect {...route} viewport={this.state.viewport} />} />
                   <Route path='/vendors/:hash?' exact component={Vendors} />
                   <Route path='/inspect/:hash?' exact component={Inspect} />
                   <Route path='/read/:kind?/:hash?' exact component={Read} />

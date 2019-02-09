@@ -233,7 +233,7 @@ class Header extends React.Component {
             </Link>
           </div>
           {!viewsInline ? this.navOverlayLink(this.state.navOpen) : null}
-          {!profileEl ? (
+          {!profileEl && viewsInline ? (
             <div className='ui'>
               <div className='views'>
                 <ul>
@@ -258,6 +258,33 @@ class Header extends React.Component {
                   })}
                 </ul>
               </div>
+            </div>
+          ) : null}
+          {this.state.navOpen ? (
+            <div className='nav'>
+              <ul>
+                {views.map(view => {
+                  if (view.profile) {
+                    return (
+                      <li key={view.slug}>
+                        <ProfileNavLink to={view.slug} isActive={isActive} exact={view.exact}>
+                          {view.name}
+                        </ProfileNavLink>
+                        <div className='description'>{view.desc}</div>
+                      </li>
+                    );
+                  } else {
+                    return (
+                      <li key={view.slug}>
+                        <NavLink to={view.slug} exact={view.exact}>
+                          {view.name}
+                        </NavLink>
+                        <div className='description'>{view.desc}</div>
+                      </li>
+                    );
+                  }
+                })}
+              </ul>
             </div>
           ) : null}
         </div>

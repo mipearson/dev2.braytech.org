@@ -8,7 +8,7 @@ function BuildProfileLink({ to, children, component, member, ...rest }) {
   let memberPrefix = member.membershipId ? `/${member.membershipType}/${member.membershipId}/${member.characterId}` : '';
 
   return (
-    <LinkComponent {...rest} to={{ pathname: `${memberPrefix}${to}` }}>
+    <LinkComponent to={{ pathname: `${memberPrefix}${to}` }}>
       {children}
     </LinkComponent>
   );
