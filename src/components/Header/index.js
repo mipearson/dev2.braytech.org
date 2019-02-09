@@ -298,7 +298,8 @@ function mapStateToProps(state, ownProps) {
   return {
     member: state.member,
     refreshService: state.refreshService,
-    theme: state.theme
+    theme: state.theme,
+    viewport: state.viewport
   };
 }
 

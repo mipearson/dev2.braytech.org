@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import cx from 'classnames';
+import { connect } from 'react-redux';
 
 import manifest from '../../utils/manifest';
 import ObservedImage from '../../components/ObservedImage';
@@ -177,4 +178,10 @@ class HeaderProfile extends React.Component {
   }
 }
 
-export default HeaderProfile;
+function mapStateToProps(state, ownProps) {
+  return {
+    viewport: state.viewport
+  };
+}
+
+export default connect(mapStateToProps)(HeaderProfile);

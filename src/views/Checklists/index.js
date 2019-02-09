@@ -126,7 +126,8 @@ function mapStateToProps(state, ownProps) {
   return {
     member: state.member,
     collectibles: state.collectibles,
-    theme: state.theme
+    theme: state.theme,
+    viewport: state.viewport
   };
 }
 
