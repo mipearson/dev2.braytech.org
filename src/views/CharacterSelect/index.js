@@ -6,7 +6,6 @@ import cx from 'classnames';
 import { withNamespaces } from 'react-i18next';
 
 import store from '../../utils/reduxStore';
-import getMember from '../../utils/getMember';
 import * as ls from '../../utils/localStorage';
 import Spinner from '../../components/Spinner';
 import ProfileError from './ProfileError';
@@ -25,12 +24,6 @@ class CharacterSelect extends React.Component {
     const { membershipType, membershipId } = this.props.member;
 
     ls.set('setting.profile', { membershipType, membershipId, characterId });
-
-    store.dispatch({
-      type: 'MEMBER_CHARACTER_SELECT',
-
-      payload: { characterId, membershipType, membershipId }
-    });
   };
 
   profileClick = async (membershipType, membershipId, displayName) => {
@@ -75,7 +68,8 @@ class CharacterSelect extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     member: state.member,
-    theme: state.theme
+    theme: state.theme,
+    viewport: state.viewport
   };
 }
 

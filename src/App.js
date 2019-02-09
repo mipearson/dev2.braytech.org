@@ -46,7 +46,7 @@ import Resources from './views/Resources';
 import ClanBannerBuilder from './views/Resources/ClanBannerBuilder';
 import GodRolls from './views/Resources/GodRolls';
 
-import CharacterRoute from './utils/CharacterRoute';
+const RedirectRoute = props => <Route {...props} render={({ location }) => <Redirect to={{ pathname: '/character-select', state: { from: location } }} />} />;
 
 // Print timings of promises to console (and performance logger)
 // if we're running in development mode.
@@ -94,12 +94,7 @@ class App extends React.Component {
   updateViewport = () => {
     let width = window.innerWidth;
     let height = window.innerHeight;
-    this.setState({
-      viewport: {
-        width,
-        height
-      }
-    });
+    store.dispatch({ type: 'VIEWPORT_CHANGED', payload: { width, height } });
   };
 
   async componentDidMount() {
@@ -204,28 +199,35 @@ class App extends React.Component {
               <Tooltip {...route} />
               <Route component={GoogleAnalytics.GoogleAnalytics} />
               <div className='main'>
-                <Route path='/' render={route => <Header route={route} {...this.state} {...this.props} themeOverride={themeOverride(route.location.pathname)} isProfileRoute />} />
                 <Switch>
-                  <Route path='/:membershipType([1|2|4])/:membershipId([0-9]+)/:characterId([0-9]+)' render={route => <ProfileRoutes viewport={this.state.viewport} {...route} /> } />
-                  
-                  <Route path='/account' exact render={route => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
-                  <Route path='/clan/:view?/:subView?' exact render={route => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
-                  <Route path='/checklists' exact render={() => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
-                  <Route path='/collections/:primary?/:secondary?/:tertiary?/:quaternary?' render={route => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
-                  <Route path='/triumphs/:primary?/:secondary?/:tertiary?/:quaternary?' render={route => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
-                  <Route path='/this-week' exact render={() => <Redirect to={{ pathname: '/character-select', state: { from: route.location } }} />} />
+                  <Route path='/:membershipType([1|2|4])/:membershipId([0-9]+)/:characterId([0-9]+)' component={ProfileRoutes} />} />
+                  <Route
+                    render={() => (
+                      <>
+                        <Route render={route => <Header route={route} {...this.state} {...this.props} themeOverride={themeOverride(route.location.pathname)} isProfileRoute />} />
+                        <Switch>
+                          <RedirectRoute path='/account' exact />
+                          <RedirectRoute path='/clan/' exact />
+                          <RedirectRoute path='/checklists' exact />
+                          <RedirectRoute path='/collections/' />
+                          <RedirectRoute path='/triumphs/' />
+                          <RedirectRoute path='/this-week' exact />
 
-                  <Route path='/character-select' render={route => <CharacterSelect {...route} viewport={this.state.viewport} />} />
-                  <Route path='/vendors/:hash?' exact component={Vendors} />
-                  <Route path='/inspect/:hash?' exact component={Inspect} />
-                  <Route path='/read/:kind?/:hash?' exact component={Read} />
-                  <Route path='/settings' exact render={() => <Settings availableLanguages={this.availableLanguages} />} />
-                  <Route path='/pride' exact component={Pride} />
-                  <Route path='/credits' exact component={Credits} />
-                  <Route path='/resources' exact component={Resources} />
-                  <Route path='/resources/clan-banner-builder/:decalBackgroundColorId?/:decalColorId?/:decalId?/:gonfalonColorId?/:gonfalonDetailColorId?/:gonfalonDetailId?/:gonfalonId?/' exact component={ClanBannerBuilder} />
-                  <Route path='/resources/god-rolls' exact component={GodRolls} />
-                  <Route path='/' exact component={Index} />
+                          <Route path='/character-select' exact component={CharacterSelect} />
+                          <Route path='/vendors/:hash?' exact component={Vendors} />
+                          <Route path='/inspect/:hash?' exact component={Inspect} />
+                          <Route path='/read/:kind?/:hash?' exact component={Read} />
+                          <Route path='/settings' exact render={() => <Settings availableLanguages={this.availableLanguages} />} />
+                          <Route path='/pride' exact component={Pride} />
+                          <Route path='/credits' exact component={Credits} />
+                          <Route path='/resources' exact component={Resources} />
+                          <Route path='/resources/clan-banner-builder/:decalBackgroundColorId?/:decalColorId?/:decalId?/:gonfalonColorId?/:gonfalonDetailColorId?/:gonfalonDetailId?/:gonfalonId?/' exact component={ClanBannerBuilder} />
+                          <Route path='/resources/god-rolls' exact component={GodRolls} />
+                          <Route path='/' exact component={Index} />
+                        </Switch>
+                      </>
+                    )}
+                  />
                 </Switch>
               </div>
               <Footer route={route} />
