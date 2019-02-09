@@ -12,29 +12,20 @@ import Checklists from './views/Checklists';
 import Account from './views/Account';
 import ThisWeek from './views/ThisWeek';
 
-
 class ProfileRoutes extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: this.props.member.data ? true : false
-    };
-  }
-
   async componentDidMount() {
-    const { member, location, match, ...rest } = this.props;
+    const { member, location, match } = this.props;
+    const { membershipId, membershipType, characterId } = match.params;
     console.log(member, location, match);
 
-    if (!member.membershipId !== match.params.membershipId && !member.data && !member.loading) {
-      store.dispatch({ type: 'MEMBER_LOADING_NEW_MEMBERSHIP', payload: {
-        membershipType: match.params.membershipType,
-        membershipId: match.params.membershipId,
-        characterId: match.params.characterId
-      } });
-      
+    if (!member.data || member.membershipId !== membershipId || member.membershipType !== membershipType) {
+      store.dispatch({
+        type: 'MEMBER_LOADING_NEW_MEMBERSHIP',
+        payload: { membershipId, membershipType }
+      });
+
       try {
-        const data = await getMember(match.params.membershipType, match.params.membershipId);
+        const data = await getMember(membershipType, membershipId);
         store.dispatch({
           type: 'MEMBER_LOADED',
           payload: data
@@ -43,23 +34,18 @@ class ProfileRoutes extends React.Component {
         console.log(error);
       }
     }
-  }
 
-  componentDidUpdate() {
-    const { member, location, match, ...rest } = this.props;
-    if (member.data && !this.state.data) {
-      this.setState({
-        data: true
-      })
+    if (member.characterId !== characterId) {
+      store.dispatch({ type: 'MEMBER_SELECT_CHARACTER', payload: characterId });
     }
   }
 
   render() {
-    const { member, location, match, ...rest } = this.props;
+    const { member, location, match } = this.props;
     console.log(member, location, match);
 
-    if (!this.state.data) {
-      return 'loading member data based on url params'
+    if (!member.data) {
+      return 'loading member data based on url params';
     } else {
       return (
         <>
