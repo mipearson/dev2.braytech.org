@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import cx from 'classnames';
 
 import ObservedImage from '../../components/ObservedImage';
+import { ProfileNavLink } from '../../components/ProfileLink';
 import * as ls from '../../utils/localStorage';
 import manifest from '../../utils/manifest';
 
@@ -43,7 +44,7 @@ class PresentationNode extends React.Component {
     let primaryChildren = [];
     primaryDefinition.children.presentationNodes.forEach(child => {
       let node = manifest.DestinyPresentationNodeDefinition[child.presentationNodeHash];
-
+console.log(this.props)
       let isActive = (match, location) => {
         if (this.props.match.params.secondary === undefined && primaryDefinition.children.presentationNodes.indexOf(child) === 0) {
           return true;
@@ -56,9 +57,9 @@ class PresentationNode extends React.Component {
 
       primaryChildren.push(
         <li key={node.hash} className='linked'>
-          <NavLink isActive={isActive} to={`/collections/${primaryHash}/${node.hash}`}>
+          <ProfileNavLink isActive={isActive} to={`/collections/${primaryHash}/${node.hash}`}>
             <ObservedImage className={cx('image', 'icon')} src={`https://www.bungie.net${node.displayProperties.icon}`} />
-          </NavLink>
+          </ProfileNavLink>
         </li>
       );
     });
@@ -79,9 +80,9 @@ class PresentationNode extends React.Component {
 
       secondaryChildren.push(
         <li key={node.hash} className='linked'>
-          <NavLink isActive={isActive} to={`/collections/${primaryHash}/${secondaryHash}/${node.hash}`}>
+          <ProfileNavLink isActive={isActive} to={`/collections/${primaryHash}/${secondaryHash}/${node.hash}`}>
             {node.displayProperties.name}
-          </NavLink>
+          </ProfileNavLink>
         </li>
       );
     });

@@ -5,6 +5,7 @@ import cx from 'classnames';
 import orderBy from 'lodash/orderBy';
 
 import Records from '../Records';
+import { ProfileLink } from '../../components/ProfileLink';
 import manifest from '../../utils/manifest';
 import { enumerateRecordState } from '../../utils/destinyEnums';
 
@@ -111,7 +112,7 @@ class RecordsAlmost extends React.Component {
       almost.push({
         item: (
           <li key='pageLink' className='linked'>
-            <Link to={{ pathname: '/triumphs/almost-complete', state: { from: '/triumphs' } }}>See next 100</Link>
+            <ProfileLink to={{ pathname: '/triumphs/almost-complete', state: { from: '/triumphs' } }}>See next 100</ProfileLink>
           </li>
         )
       });

@@ -7,8 +7,11 @@ function BuildProfileLink({ to, children, component, member, ...rest }) {
 
   let memberPrefix = member.characterId ? `/${member.membershipType}/${member.membershipId}/${member.characterId}` : '';
 
+  let pathname = typeof to === 'object' ? to.pathname : to;
+  let state = typeof to === 'object' ? to.state : false;
+
   return (
-    <LinkComponent to={{ pathname: `${memberPrefix}${to}` }}>
+    <LinkComponent to={{ pathname: `${memberPrefix}${pathname}`, state: state || undefined }}>
       {children}
     </LinkComponent>
   );

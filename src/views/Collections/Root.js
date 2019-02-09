@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import manifest from '../../utils/manifest';
 
 import ObservedImage from '../../components/ObservedImage';
+import { ProfileLink } from '../../components/ProfileLink';
 import { enumerateCollectibleState } from '../../utils/destinyEnums';
 
 class Root extends React.Component {
@@ -86,7 +87,7 @@ class Root extends React.Component {
               <span>{states.filter(collectible => !enumerateCollectibleState(collectible).notAcquired).length}</span> / {states.filter(collectible => !enumerateCollectibleState(collectible).invisible).length}
             </div>
           </div>
-          <Link to={`/collections/${node.hash}`} />
+          <ProfileLink to={`/collections/${node.hash}`} />
         </div>
       );
     });
@@ -136,12 +137,12 @@ class Root extends React.Component {
             fullComplete: fullComplete === 3
           })}
         >
-          <Link to={`/collections/badge/${node.hash}`}>
+          <ProfileLink to={`/collections/badge/${node.hash}`}>
             <ObservedImage className={cx('image', 'icon')} src={`https://www.bungie.net${node.originalIcon}`} />
             <div className='text'>
               <div>{node.displayProperties.name}</div>
             </div>
-          </Link>
+          </ProfileLink>
         </li>
       );
     });

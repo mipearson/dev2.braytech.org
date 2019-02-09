@@ -7,6 +7,7 @@ import cx from 'classnames';
 
 import Root from './Root';
 import BadgeNode from './BadgeNode';
+import { ProfileLink } from '../../components/ProfileLink';
 import PresentationNode from './PresentationNode';
 
 import './styles.css';
@@ -44,10 +45,10 @@ class Collections extends React.Component {
             <div />
             <ul>
               <li>
-                <Link to='/collections'>
+                <ProfileLink to='/collections'>
                   <i className='uniF094' />
                   Back
-                </Link>
+                </ProfileLink>
               </li>
             </ul>
           </div>
@@ -63,10 +64,10 @@ class Collections extends React.Component {
             <div />
             <ul>
               <li>
-                <Link to='/collections'>
+                <ProfileLink to='/collections'>
                   <i className='uniF094' />
                   {t('Back')}
-                </Link>
+                </ProfileLink>
               </li>
             </ul>
           </div>

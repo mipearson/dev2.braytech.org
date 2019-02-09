@@ -5,6 +5,7 @@ import { withNamespaces } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
+import { ProfileLink } from '../../components/ProfileLink';
 import Root from './Root';
 import SealNode from './SealNode';
 import PresentationNode from './PresentationNode';
@@ -84,10 +85,10 @@ class Triumphs extends React.Component {
             <ul>
               <li>{toggleCompletedLink}</li>
               <li>
-                <Link to={backLinkPath}>
+                <ProfileLink to={backLinkPath}>
                   <i className='uniF094' />
                   {t('Back')}
-                </Link>
+                </ProfileLink>
               </li>
             </ul>
           </div>
@@ -103,10 +104,10 @@ class Triumphs extends React.Component {
             <div />
             <ul>
               <li>
-                <Link to={backLinkPath}>
+                <ProfileLink to={backLinkPath}>
                   <i className='uniF094' />
                   {t('Back')}
-                </Link>
+                </ProfileLink>
               </li>
             </ul>
           </div>
@@ -122,10 +123,10 @@ class Triumphs extends React.Component {
             <div />
             <ul>
               <li>
-                <Link to={backLinkPath}>
+                <ProfileLink to={backLinkPath}>
                   <i className='uniF094' />
                   {t('Back')}
-                </Link>
+                </ProfileLink>
               </li>
             </ul>
           </div>
@@ -142,10 +143,10 @@ class Triumphs extends React.Component {
             <ul>
               <li>{toggleCompletedLink}</li>
               <li>
-                <Link to={backLinkPath}>
+                <ProfileLink to={backLinkPath}>
                   <i className='uniF094' />
                   {t('Back')}
-                </Link>
+                </ProfileLink>
               </li>
             </ul>
           </div>

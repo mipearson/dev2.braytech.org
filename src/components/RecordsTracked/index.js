@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
 import Records from '../Records';
+import { ProfileLink } from '../../components/ProfileLink';
 import { enumerateRecordState } from '../../utils/destinyEnums';
 
 class RecordsTracked extends React.Component {
@@ -37,7 +38,7 @@ class RecordsTracked extends React.Component {
         <Records selfLink {...this.props} hashes={hashes} ordered='progress' limit={limit} />
         {pageLink && hashes.length > 0 ? (
           <li key='pageLink' className='linked'>
-            <Link to={{ pathname: '/triumphs/tracked', state: { from: '/triumphs' } }}>See all tracked</Link>
+            <ProfileLink to={{ pathname: '/triumphs/tracked', state: { from: '/triumphs' } }}>See all tracked</ProfileLink>
           </li>
         ) : null}
         {hashes.length < 1 ? (
@@ -52,7 +53,7 @@ class RecordsTracked extends React.Component {
         ) : null}
         {pageLink && (this.props.location && this.props.location.pathname !== '/triumphs') && hashes.length < 1 ? (
           <li key='pageLink' className='linked'>
-            <Link to={{ pathname: '/triumphs', state: { from: '/triumphs' } }}>See all triumphs</Link>
+            <ProfileLink to={{ pathname: '/triumphs', state: { from: '/triumphs' } }}>See all triumphs</ProfileLink>
           </li>
         ) : null}
       </ul>

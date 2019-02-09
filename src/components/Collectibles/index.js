@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
 import manifest from '../../utils/manifest';
+import { ProfileLink } from '../../components/ProfileLink';
 import ObservedImage from '../../components/ObservedImage';
 import { enumerateCollectibleState } from '../../utils/destinyEnums';
 
@@ -217,7 +218,7 @@ class Collectibles extends React.Component {
             <div className='text'>
               <div className='name'>{collectibleDefinition.displayProperties.name}</div>
             </div>
-            {link && this.props.selfLink ? <Link to={link} /> : null}
+            {link && this.props.selfLink ? <ProfileLink to={link} /> : null}
           </li>
         );
       });

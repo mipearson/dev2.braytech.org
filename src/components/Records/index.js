@@ -5,6 +5,7 @@ import orderBy from 'lodash/orderBy';
 import cx from 'classnames';
 
 import ObservedImage from '../ObservedImage';
+import { ProfileLink } from '../../components/ProfileLink';
 import ProgressBar from '../ProgressBar';
 import manifest from '../../utils/manifest';
 import { enumerateRecordState } from '../../utils/destinyEnums';
@@ -245,7 +246,7 @@ class Records extends React.Component {
                 </div>
               </div>
               <div className='objectives'>{objectives}</div>
-              {link && linkTo ? <Link to={linkTo} /> : null}
+              {link && linkTo ? <ProfileLink to={linkTo} /> : null}
             </li>
           )
         });
