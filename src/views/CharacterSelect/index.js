@@ -22,48 +22,24 @@ class CharacterSelect extends React.Component {
   }
 
   characterClick = characterId => {
-    ls.set('setting.profile', {
-      membershipType: this.props.member.membershipType,
-      membershipId: this.props.member.membershipId,
-      characterId
-    });
+    const { membershipType, membershipId } = this.props.member;
+
+    ls.set('setting.profile', { membershipType, membershipId, characterId });
 
     store.dispatch({
       type: 'MEMBER_CHARACTER_SELECT',
-      payload: characterId
+
+      payload: { characterId, membershipType, membershipId }
     });
   };
 
   profileClick = async (membershipType, membershipId, displayName) => {
     window.scrollTo(0, 0);
 
-    store.dispatch({ type: 'MEMBER_LOADING_NEW_MEMBERSHIP', payload: { membershipType, membershipId } });
-
-    try {
-      const data = await getMember(membershipType, membershipId);
-
-      if (!data.profile.characterProgressions.data) {
-        store.dispatch({ type: 'MEMBER_LOAD_ERROR', payload: new Error('private') });
-        return;
-      }
-
-      store.dispatch({ type: 'MEMBER_LOADED', payload: data });
-    } catch (error) {
-      store.dispatch({ type: 'MEMBER_LOAD_ERROR', payload: error });
-      return;
-    }
+    store.dispatch({ type: 'MEMBER_LOAD_NEW_MEMBERSHIP', payload: { membershipType, membershipId } });
 
     if (displayName) {
-      ls.update(
-        'history.profiles',
-        {
-          membershipType,
-          membershipId,
-          displayName
-        },
-        true,
-        6
-      );
+      ls.update('history.profiles', { membershipType, membershipId, displayName }, true, 6);
     }
   };
 

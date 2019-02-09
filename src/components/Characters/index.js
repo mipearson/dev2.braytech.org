@@ -7,6 +7,7 @@ import { withNamespaces } from 'react-i18next';
 
 import ObservedImage from '../../components/ObservedImage';
 import * as utils from '../../utils/destinyUtils';
+import { removeMemberIds } from '../../utils/paths';
 
 import './styles.css';
 
@@ -25,8 +26,7 @@ class Characters extends React.Component {
 
       let progress = capped ? characterProgressions[character.characterId].progressions[2030054750].progressToNextLevel / characterProgressions[character.characterId].progressions[2030054750].nextLevelAt : characterProgressions[character.characterId].progressions[1716568313].progressToNextLevel / characterProgressions[character.characterId].progressions[1716568313].nextLevelAt;
 
-      // let profileLink = `/${member.membershipType}/${member.membershipId}/${character.characterId}${this.props.location.pathname}`;
-      let profileLink = `/${member.membershipType}/${member.membershipId}/${character.characterId}/account`;
+      let profileLink = `/${member.membershipType}/${member.membershipId}/${character.characterId}${removeMemberIds(this.props.location.pathname)}`;
 
       charactersRender.push(
         <li key={character.characterId} className='linked'>

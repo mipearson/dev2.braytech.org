@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
 import store from './utils/reduxStore';
-import getMember from './utils/getMember';
 
 import Clan from './views/Clan';
 import Collections from './views/Collections';
@@ -12,54 +11,42 @@ import Checklists from './views/Checklists';
 import Account from './views/Account';
 import ThisWeek from './views/ThisWeek';
 
-
 class ProfileRoutes extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: this.props.member.data ? true : false
-    };
-  }
-
-  async componentDidMount() {
-    const { member, location, match, ...rest } = this.props;
-    console.log(member, location, match);
-
-    if (!member.membershipId !== match.params.membershipId && !member.data && !member.loading) {
-      store.dispatch({ type: 'MEMBER_LOADING_NEW_MEMBERSHIP', payload: {
-        membershipType: match.params.membershipType,
-        membershipId: match.params.membershipId,
-        characterId: match.params.characterId
-      } });
-      
-      try {
-        const data = await getMember(match.params.membershipType, match.params.membershipId);
-        store.dispatch({
-          type: 'MEMBER_LOADED',
-          payload: data
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  componentDidMount() {
+    this.syncMemberships();
   }
 
   componentDidUpdate() {
-    const { member, location, match, ...rest } = this.props;
-    if (member.data && !this.state.data) {
-      this.setState({
-        data: true
-      })
+    this.syncMemberships();
+  }
+
+  syncMemberships() {
+    const { member, location, match } = this.props;
+    const { membershipId, membershipType, characterId } = match.params;
+    console.log(member, location, match);
+
+    if ((!member.data && !member.loading) || member.membershipId !== membershipId || member.membershipType !== membershipType) {
+      store.dispatch({
+        type: 'MEMBER_LOAD_NEW_MEMBERSHIP',
+        payload: { membershipId, membershipType }
+      });
+    }
+
+    if (member.characterId !== characterId) {
+      store.dispatch({ type: 'MEMBER_CHARACTER_SELECT', payload: { membershipType, membershipId, characterId } });
     }
   }
 
   render() {
-    const { member, location, match, ...rest } = this.props;
+    const { member, location, match } = this.props;
     console.log(member, location, match);
 
-    if (!this.state.data) {
-      return 'loading member data based on url params'
+    if (member.error) {
+      // Character select will be able to display the error for us & prompt
+      // them to pick a new character / member
+      return <Redirect to={{ pathname: '/character-select', state: { from: location } }} />;
+    } else if (!member.data) {
+      return 'loading member data based on url params';
     } else {
       return (
         <>
