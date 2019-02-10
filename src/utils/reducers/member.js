@@ -72,8 +72,10 @@ export default function memberReducer(state = defaultState, action) {
       if (state.prevData !== data) {
         data.updated = new Date().getTime();
       }
+      // console.log(state.characterId, data.profile.characters.data[0].characterId);
       return {
         ...state,
+        characterId: state.characterId ? state.characterId : data.profile.characters.data[0].characterId,
         data: data,
         prevData: state.data,
         loading: false,

@@ -263,6 +263,14 @@ function xpRequiredForLevel(level, progressDef) {
   return progressDef.steps[stepIndex].progressTotal;
 }
 
+export function getDefaultCharacterId(profile) {
+  let string = 'lol';
+
+  console.log(profile)
+
+  return string;
+}
+
 export function lastPlayerActivity(member) {
   let lastActivity = false;
   let lastCharacter = false;

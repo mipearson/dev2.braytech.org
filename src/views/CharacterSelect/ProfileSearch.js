@@ -1,11 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
+import PropTypes from 'prop-types';
+import debounce from 'lodash/debounce';
 import { withNamespaces } from 'react-i18next';
+
 import * as destinyEnums from '../../utils/destinyEnums';
 import * as ls from '../../utils/localStorage';
-import PropTypes from 'prop-types';
 import * as bungie from '../../utils/bungie';
-import debounce from 'lodash/debounce';
 import Spinner from '../../components/Spinner';
 
 import './styles.css';
@@ -53,7 +54,7 @@ class ProfileSearch extends React.Component {
   };
 
   onSearchKeyPress = e => {
-    // If they pressed enter, ignore the debounce and search right meow.
+    // If they pressed enter, ignore the debounce and search right meow. MEOW, SON.
     if (e.key === 'Enter') this.searchForPlayers.flush();
   };
 

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -23,7 +22,7 @@ class CharacterSelect extends React.Component {
   characterClick = characterId => {
     const { membershipType, membershipId } = this.props.member;
 
-    ls.set('setting.profile', { membershipType, membershipId, characterId });
+    // ls.set('setting.profile', { membershipType, membershipId, characterId });
   };
 
   profileClick = async (membershipType, membershipId, displayName) => {
