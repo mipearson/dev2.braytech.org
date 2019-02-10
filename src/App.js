@@ -14,7 +14,6 @@ import { isProfileRoute, themeOverride } from './utils/globals';
 import dexie from './utils/dexie';
 import * as bungie from './utils/bungie';
 import GoogleAnalytics from './components/GoogleAnalytics';
-import getMember from './utils/getMember';
 import store from './utils/reduxStore';
 import manifest from './utils/manifest';
 import * as ls from './utils/localStorage';
@@ -24,19 +23,11 @@ import Header from './components/Header';
 import Tooltip from './components/Tooltip';
 import Footer from './components/Footer';
 import NotificationApp from './components/NotificationApp';
-import NotificationProgress from './components/NotificationProgress';
-import RefreshService from './components/RefreshService';
+
 import ProfileRoutes from './ProfileRoutes';
 
 import Index from './views/Index';
 import CharacterSelect from './views/CharacterSelect';
-import Clan from './views/Clan';
-import Collections from './views/Collections';
-import Triumphs from './views/Triumphs';
-import Checklists from './views/Checklists';
-import Account from './views/Account';
-// import Character from './views/Character';
-import ThisWeek from './views/ThisWeek';
 import Vendors from './views/Vendors';
 import Inspect from './views/Inspect';
 import Read from './views/Read';
