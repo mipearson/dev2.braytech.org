@@ -28,7 +28,7 @@ class CharacterSelect extends React.Component {
   profileClick = async (membershipType, membershipId, displayName) => {
     window.scrollTo(0, 0);
 
-    store.dispatch({ type: 'MEMBER_LOAD_NEW_MEMBERSHIP', payload: { membershipType, membershipId } });
+    store.dispatch({ type: 'MEMBER_LOAD_NEW_MEMBERSHIP', payload: { membershipType: parseInt(membershipType, 10), membershipId } });
 
     if (displayName) {
       ls.update('history.profiles', { membershipType, membershipId, displayName }, true, 6);

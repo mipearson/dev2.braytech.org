@@ -18,10 +18,10 @@ class ProfileRoutes extends React.Component {
     const { member, match } = this.props;
     const { membershipId, membershipType, characterId } = match.params;
 
-    if ((!member.data && !member.loading) || member.membershipId !== membershipId || member.membershipType !== parseInt(membershipType, 10)) {
+    if ((!member.data && !member.loading) || member.membershipId !== membershipId || parseInt(member.membershipType, 10) !== parseInt(membershipType, 10)) {
       store.dispatch({
         type: 'MEMBER_LOAD_NEW_MEMBERSHIP',
-        payload: { membershipId, membershipType }
+        payload: { membershipType: parseInt(membershipType, 10), membershipId }
       });
     }
 
