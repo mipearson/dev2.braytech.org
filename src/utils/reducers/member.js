@@ -45,7 +45,10 @@ async function loadMember(membershipType, membershipId, characterId) {
 
 export default function memberReducer(state = defaultState, action) {
   if (!action.payload) return state;
-  const { membershipType, membershipId, characterId, data, error } = action.payload;
+  const { membershipId, characterId, data, error } = action.payload;
+
+  // Sometimes a number - let's just make it a string all the time
+  const membershipType = action.payload.membershipType && action.payload.membershipType.toString();
 
   if (action.type === 'MEMBER_SET_BY_PROFILE_ROUTE') {
     const membershipLoadNeeded = (!state.data && !state.loading) || state.membershipId !== membershipId || state.membershipType !== membershipType;
@@ -87,10 +90,7 @@ export default function memberReducer(state = defaultState, action) {
         error
       };
     case 'MEMBER_LOADED':
-      if (state.prevData !== data) {
-        data.updated = new Date().getTime();
-      }
-      // console.log(state.characterId, data.profile.characters.data[0].characterId);
+      if (state.prevData !== data) data.updated = new Date().getTime();
       return {
         ...state,
         characterId,
