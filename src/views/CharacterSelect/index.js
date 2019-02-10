@@ -22,13 +22,13 @@ class CharacterSelect extends React.Component {
   characterClick = characterId => {
     const { membershipType, membershipId } = this.props.member;
 
-    // ls.set('setting.profile', { membershipType, membershipId, characterId });
+    ls.set('setting.profile', { membershipType, membershipId, characterId });
   };
 
   profileClick = async (membershipType, membershipId, displayName) => {
     window.scrollTo(0, 0);
 
-    store.dispatch({ type: 'MEMBER_LOAD_NEW_MEMBERSHIP', payload: { membershipType, membershipId } });
+    store.dispatch({ type: 'MEMBER_LOAD_MEMBERSHIP', payload: { membershipType, membershipId } });
 
     if (displayName) {
       ls.update('history.profiles', { membershipType, membershipId, displayName }, true, 6);

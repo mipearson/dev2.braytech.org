@@ -17,6 +17,7 @@ import GoogleAnalytics from './components/GoogleAnalytics';
 import getMember from './utils/getMember';
 import store from './utils/reduxStore';
 import manifest from './utils/manifest';
+import * as ls from './utils/localStorage';
 
 import Loading from './components/Loading';
 import Header from './components/Header';
@@ -84,11 +85,12 @@ class App extends React.Component {
       bungieSettings: timed('getSettings', bungie.settings())
     };
 
-    // const member = props.member;
+    const profile = ls.get('setting.profile');
 
-    // if (member && member.membershipId && member.membershipType) {
-    //   this.startupRequests.member = timed('getMember', getMember(member.membershipType, member.membershipId));
-    // }
+    store.dispatch({
+      type: 'MEMBER_SET_BY_PROFILE_ROUTE',
+      payload: profile
+    });
   }
 
   updateViewport = () => {
@@ -127,21 +129,6 @@ class App extends React.Component {
 
     tmpManifest.settings = await this.startupRequests.bungieSettings;
     this.availableLanguages = Object.keys(manifestIndex.jsonWorldContentPaths);
-
-    // if (this.startupRequests.member) {
-    //   try {
-    //     this.setState({ status: { code: 'fetchProfile' } });
-    //     const data = await this.startupRequests.member;
-    //     store.dispatch({
-    //       type: 'MEMBER_LOADED',
-    //       payload: data
-    //     });
-    //   } catch (error) {
-    //     // Ignore it if we can't load the member on app boot - the user will just
-    //     // need to select a new member
-    //     console.log(error);
-    //   }
-    // }
 
     manifest.set(tmpManifest);
 
