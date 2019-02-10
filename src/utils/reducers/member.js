@@ -41,6 +41,7 @@ export default function memberReducer(state = defaultState, action) {
       ...state,
       membershipId,
       membershipType,
+      characterId: null,
       data: false,
       error: false,
       loading: true
